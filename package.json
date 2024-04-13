@@ -14,9 +14,11 @@
         "fs-extra": "11.2.0",
         "concurrently": "8.2.2",
         "chokidar": "3.6.0",
-        "sass": "1.75.0"
+        "sass": "1.75.0",
+        "dotenv": "16.4.5"
     },
     "scripts": {
+        "clean": "node scripts/clean.js",
         "build:public": "node scripts/copy-public.js",
         "build:css": "sass src/index.scss dist/index.css --style=compressed --no-source-map",
         "build:js": "esbuild --bundle --minify --platform=browser --jsx=automatic --outfile=dist/index.js src/index.tsx",
@@ -24,6 +26,8 @@
         "serve:public": "node scripts/watch-public.js",
         "serve:css": "sass src/index.scss dist/index.css --style=compressed --no-source-map --watch",
         "serve:js": "esbuild --bundle --platform=browser --jsx=automatic --outfile=dist/index.js --serve=0.0.0.0:8080 --servedir=dist src/index.tsx",
-        "serve": "concurrently \"npm run serve:public\" \"npm run serve:css\" \"npm run serve:js\" -n \"PUBLIC,CSS,JS\""
+        "serve": "concurrently \"npm run serve:public\" \"npm run serve:css\" \"npm run serve:js\" -n \"PUBLIC,CSS,JS\"",
+        "deploy:server": "node scripts/deploy.js",
+        "deploy": "npm run clean && npm run build && npm run deploy:server"
     }
 }
