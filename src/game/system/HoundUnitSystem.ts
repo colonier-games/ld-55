@@ -19,6 +19,18 @@ export class HoundUnitSystem implements IGameSystem {
 
     tick(dt: number, gameLogic: IGameLogic): void {
 
+        const houndUnits = gameLogic.getEntities<IHoundUnit>('units.hound');
+
+        houndUnits.forEach(unit => {
+
+            unit.velocity.x += (Math.random() - 0.5) * dt * 1000;
+            unit.velocity.y += (Math.random() - 0.5) * dt * 1000;
+
+            unit.position.x += unit.velocity.x * dt;
+            unit.position.y += unit.velocity.y * dt;
+
+        });
+
     }
 
     render(dt: number, gameLogic: IGameLogic): void {

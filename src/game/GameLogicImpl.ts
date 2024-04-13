@@ -4,6 +4,8 @@ import { IEntity } from "./entity/IEntity";
 import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
+import { UnitArenaBoundsSystem } from "./system/UnitArenaBoundsSystem";
+import { UnitMovementSystem } from "./system/UnitMovementSystem";
 import { UnitTestingSystem } from "./system/UnitTestingSystem";
 
 export class GameLogicImpl implements IGameLogic {
@@ -45,6 +47,8 @@ export class GameLogicImpl implements IGameLogic {
         this._systems.push(
             new LevelBackgroundSystem(),
             new HoundUnitSystem(),
+            new UnitMovementSystem(),
+            new UnitArenaBoundsSystem(),
             new UnitTestingSystem()
         );
 
@@ -71,7 +75,10 @@ export class GameLogicImpl implements IGameLogic {
     private onAnimationFrame() {
         const nowTime = Date.now();
         const deltaMs = nowTime - this.lastFrameTime;
-        const delta = deltaMs / 1000.0;
+        const delta = Math.min(
+            deltaMs / 1000.0,
+            1 / 30.0
+        );
         this.lastFrameTime = nowTime;
 
         this._canvasSize.width = this.canvas.width;

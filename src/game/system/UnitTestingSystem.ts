@@ -1,6 +1,6 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
-import { IHoundUnit } from "../entity/IHoundUnit";
+import { IHoundUnit, createHoundUnit } from "../entity/IHoundUnit";
 import { UNIT_OWNER_AI, UNIT_OWNER_PLAYER } from "../entity/IUnit";
 import { IGameSystem } from "./IGameSystem";
 
@@ -9,25 +9,25 @@ export class UnitTestingSystem implements IGameSystem {
 
         // Spawn 10 random hound units for player, and AI
         for (let i = 0; i < 10; i++) {
-            gameLogic.spawnEntity<IHoundUnit>('units.hound', {
+            gameLogic.spawnEntity<IHoundUnit>('units.hound', createHoundUnit({
                 position: {
                     x: 1000 * Math.random(),
                     y: 1000 * Math.random()
                 },
-                dead: false,
-                owner: UNIT_OWNER_PLAYER
-            });
+                owner: UNIT_OWNER_PLAYER,
+                level: 0
+            }));
         }
 
         for (let i = 0; i < 10; i++) {
-            gameLogic.spawnEntity<IHoundUnit>('units.hound', {
+            gameLogic.spawnEntity<IHoundUnit>('units.hound', createHoundUnit({
                 position: {
                     x: 1000 * Math.random(),
                     y: 1000 * Math.random()
                 },
-                dead: false,
-                owner: UNIT_OWNER_AI
-            });
+                owner: UNIT_OWNER_AI,
+                level: 0
+            }));
         }
 
     }
