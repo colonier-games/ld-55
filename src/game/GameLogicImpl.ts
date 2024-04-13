@@ -1,8 +1,10 @@
 import { IGameAssets } from "./IGameAssets";
 import { IGameLogic } from "./IGameLogic";
 import { IEntity } from "./entity/IEntity";
+import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
+import { UnitTestingSystem } from "./system/UnitTestingSystem";
 
 export class GameLogicImpl implements IGameLogic {
 
@@ -10,6 +12,7 @@ export class GameLogicImpl implements IGameLogic {
     private _context: CanvasRenderingContext2D | null = null;
     private _systems: Array<IGameSystem> = [];
     private _entities: Record<string, Array<IEntity>> = {};
+    private _canvasSize: { width: number, height: number } = { width: 0, height: 0 };
     private lastFrameTime: number = 0;
 
     constructor(
@@ -26,6 +29,10 @@ export class GameLogicImpl implements IGameLogic {
         return this._context;
     }
 
+    get canvasSize(): { width: number, height: number } {
+        return this._canvasSize;
+    }
+
     private onWindowResized() {
         if (this.canvas) {
             this.canvas.width = window.innerWidth;
@@ -34,7 +41,12 @@ export class GameLogicImpl implements IGameLogic {
     }
 
     private initSystems() {
-        this._systems.push(new LevelBackgroundSystem());
+
+        this._systems.push(
+            new LevelBackgroundSystem(),
+            new HoundUnitSystem(),
+            new UnitTestingSystem()
+        );
 
         this._systems.forEach(system => {
             console.log('[GameLogicImpl]', 'initSystems', system);
@@ -61,6 +73,9 @@ export class GameLogicImpl implements IGameLogic {
         const deltaMs = nowTime - this.lastFrameTime;
         const delta = deltaMs / 1000.0;
         this.lastFrameTime = nowTime;
+
+        this._canvasSize.width = this.canvas.width;
+        this._canvasSize.height = this.canvas.height;
 
         this.tick(delta);
         this.render(delta);
@@ -93,6 +108,16 @@ export class GameLogicImpl implements IGameLogic {
             this._entities[entityType] = [];
         }
         this._entities[entityType].push(entityData);
+    }
+
+    getAllEntities(): Array<IEntity> {
+        return Object.keys(this._entities).reduce((acc, entityType) => {
+            return acc.concat(this._entities[entityType]);
+        }, []);
+    }
+
+    getEntities<T extends IEntity>(entityType: string): Array<T> {
+        return this._entities[entityType] as Array<T> || [];
     }
 
 }

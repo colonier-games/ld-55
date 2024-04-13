@@ -9,10 +9,14 @@ export interface IGameLogic {
 
     readonly canvas: HTMLCanvasElement;
     readonly context: CanvasRenderingContext2D;
+    readonly canvasSize: { width: number, height: number };
 
     spawnEntity<T extends IEntity>(
         entityType: string,
         entityData: T
     ): void;
+
+    getAllEntities(): Array<IEntity>;
+    getEntities<T extends IEntity>(entityType: string): Array<T>;
 
 }

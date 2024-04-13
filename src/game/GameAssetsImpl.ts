@@ -54,7 +54,12 @@ export class GameAssetsImpl implements IGameAssets {
     }
 
     populateLoadingQueue(): void {
+
         this.loadGraphics('levels.nether-woods', 'assets/levels/nether-woods.png')
+        this.loadGraphics('units.hound', 'assets/units/hound.png')
+        this.loadGraphics('units.hound.green', 'assets/units/hound-green.png')
+        this.loadGraphics('units.hound.red', 'assets/units/hound-red.png')
+
     }
 
     addLoadingProgressListener(
