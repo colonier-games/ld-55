@@ -17,6 +17,7 @@ export interface IGameLogic {
     ): void;
 
     getAllEntities(): Array<IEntity>;
-    getEntities<T extends IEntity>(entityType: string): Array<T>;
+    getEntities<T extends IEntity>(entityType: string | Array<string>): Array<T>;
+    getEntity<T extends IEntity>(entityType: string, entityId: number): T | undefined;
 
 }

@@ -90,13 +90,15 @@ export class GameLogicImpl implements IGameLogic {
         window.requestAnimationFrame(this.onAnimationFrame.bind(this));
     }
 
-    private tick(dt) {
+    private tick(dt: number) {
         this._systems.forEach(system => {
             system.tick(dt, this);
         });
+
+        this.cleanUpDeadEntities();
     }
 
-    private render(dt) {
+    private render(dt: number) {
         const g = this.context;
         const W = this.canvas.width;
         const H = this.canvas.height;
@@ -108,6 +110,14 @@ export class GameLogicImpl implements IGameLogic {
         this._systems.forEach(system => {
             system.render(dt, this);
         });
+    }
+
+    private cleanUpDeadEntities() {
+
+        for (let entityType in this._entities) {
+            this._entities[entityType] = this._entities[entityType].filter(entity => !entity.dead);
+        }
+
     }
 
     spawnEntity<T extends IEntity>(entityType: string, entityData: T): void {
@@ -123,8 +133,17 @@ export class GameLogicImpl implements IGameLogic {
         }, []);
     }
 
-    getEntities<T extends IEntity>(entityType: string): Array<T> {
+    getEntities<T extends IEntity>(entityType: string | Array<string>): Array<T> {
+        if (Array.isArray(entityType)) {
+            return entityType.reduce((acc, type) => {
+                return acc.concat(this._entities[type] as Array<T>);
+            }, []);
+        }
         return this._entities[entityType] as Array<T> || [];
+    }
+
+    getEntity<T extends IEntity>(entityType: string, entityId: number) {
+        return this.getEntities<T>(entityType).find(entity => entity.id === entityId);
     }
 
 }

@@ -11,6 +11,8 @@ export interface IUnit extends IEntity {
     ap: number;
     sp: number;
     dp: number;
+    baseSpeed: number;
+    baseAcceleration: number;
     velocity: { x: number, y: number };
 }
 
