@@ -11,14 +11,16 @@ export const UNIT_HOUND_SP_PER_LEVEL = 0.05;
 export const UNIT_HOUND_DP_PER_LEVEL = 1;
 export const UNIT_HOUND_BASE_SPEED = 300;
 export const UNIT_HOUND_BASE_ACCELERATION = 3000;
-export const UNIT_HOUND_ATTACK_COOLDOWN = 0.25;
+export const UNIT_HOUND_ATTACK_COOLDOWN = 1.0;
 export const UNIT_HOUND_ATTACK_COOLDOWN_PER_LEVEL = 0.05;
 export const UNIT_HOUND_ATTACK_RANGE = 100;
+export const UNIT_HOUND_ATTACK_ANIMATION_START = 0.75;
 
 export interface IHoundUnit extends IUnit {
     target?: IUnit | null;
     attackTimer: number;
     attackCooldown: number;
+    attackFromPosition?: { x: number, y: number } | null;
 }
 
 export function createHoundUnit(
@@ -28,12 +30,14 @@ export function createHoundUnit(
         level: number
     }
 ): IHoundUnit {
+    const maxHp = UNIT_HOUND_BASE_HP + UNIT_HOUND_HP_PER_LEVEL * props.level;
     return {
         id: newEntityId(),
         position: props.position,
         dead: false,
         owner: props.owner,
-        hp: UNIT_HOUND_BASE_HP + UNIT_HOUND_HP_PER_LEVEL * props.level,
+        hp: maxHp,
+        maxHp,
         ap: UNIT_HOUND_BASE_AP + UNIT_HOUND_AP_PER_LEVEL * props.level,
         sp: UNIT_HOUND_BASE_SP + UNIT_HOUND_SP_PER_LEVEL * props.level,
         dp: props.level,
@@ -41,6 +45,7 @@ export function createHoundUnit(
         baseSpeed: UNIT_HOUND_BASE_SPEED,
         baseAcceleration: UNIT_HOUND_BASE_ACCELERATION,
         attackTimer: 0,
-        attackCooldown: UNIT_HOUND_ATTACK_COOLDOWN + UNIT_HOUND_ATTACK_COOLDOWN_PER_LEVEL * props.level
+        attackCooldown: UNIT_HOUND_ATTACK_COOLDOWN + UNIT_HOUND_ATTACK_COOLDOWN_PER_LEVEL * props.level,
+        attackFromPosition: { x: props.position.x, y: props.position.y }
     };
 }

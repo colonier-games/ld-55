@@ -17,8 +17,12 @@ export class UnitMovementSystem implements IGameSystem {
 
         allUnits.forEach(unit => {
 
-            unit.position.x += unit.velocity.x * dt;
-            unit.position.y += unit.velocity.y * dt;
+            if (!unit.kinematic) {
+
+                unit.position.x += unit.velocity.x * dt;
+                unit.position.y += unit.velocity.y * dt;
+
+            }
 
         });
 

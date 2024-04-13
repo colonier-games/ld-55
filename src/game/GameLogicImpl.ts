@@ -11,6 +11,7 @@ import { PlayerInitSystem } from "./system/PlayerInitSystem";
 import { PlayerMoneyEarningSystem } from "./system/PlayerMoneyEarningSystem";
 import { PlayerMoneyNotificationSystem } from "./system/PlayerMoneyNotificationSystem";
 import { UnitArenaBoundsSystem } from "./system/UnitArenaBoundsSystem";
+import { UnitHealthBarSystem } from "./system/UnitHealthBarSystem";
 import { UnitKillingSystem } from "./system/UnitKillingSystem";
 import { UnitMovementSystem } from "./system/UnitMovementSystem";
 import { UnitTestingSystem } from "./system/UnitTestingSystem";
@@ -64,7 +65,8 @@ export class GameLogicImpl implements IGameLogic {
             new PlayerMoneyEarningSystem(),
             new PlayerMoneyNotificationSystem(),
             new PlayerBuildingBuySystem(),
-            new PlayerBuildingsNotificationSystem()
+            new PlayerBuildingsNotificationSystem(),
+            new UnitHealthBarSystem()
         );
 
         this._systems.forEach(system => {

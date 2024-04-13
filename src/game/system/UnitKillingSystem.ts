@@ -12,6 +12,10 @@ export class UnitKillingSystem implements IGameSystem {
         allUnits.forEach(unit => {
             if (unit.hp <= 0) {
                 unit.dead = true;
+                gameLogic.trigger(
+                    'unit.killed',
+                    { unit }
+                );
             }
         });
     }

@@ -1,8 +1,10 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
-import { IHoundUnit, UNIT_HOUND_ATTACK_RANGE } from "../entity/IHoundUnit";
+import { IHoundUnit, UNIT_HOUND_ATTACK_ANIMATION_START, UNIT_HOUND_ATTACK_RANGE } from "../entity/IHoundUnit";
 import { IUnit, UNIT_ENTITY_TYPES, UNIT_OWNER_AI } from "../entity/IUnit";
+import { expImpulse } from "../utils/game-animation";
 import { worldToCanvas } from "../utils/game-coordinates";
+import { lerpIn } from "../utils/lerp";
 import { IGameSystem } from "./IGameSystem";
 
 const HOUND_UNIT_SIZE = 40;
@@ -87,11 +89,29 @@ export class HoundUnitSystem implements IGameSystem {
             unit.velocity.y *= unit.baseSpeed * unit.sp;
         }
 
+        if (unit.attackTimer - UNIT_HOUND_ATTACK_ANIMATION_START > 0) {
+            const attackAnimationAlpha = Math.sin(
+                Math.PI * ((unit.attackTimer - UNIT_HOUND_ATTACK_ANIMATION_START) / (unit.attackCooldown - UNIT_HOUND_ATTACK_ANIMATION_START))
+            );
+            unit.kinematic = true;
+            lerpIn(
+                unit.position,
+                unit.attackFromPosition,
+                unit.target.position,
+                attackAnimationAlpha
+            );
+        } else {
+            unit.kinematic = false;
+            unit.attackFromPosition.x = unit.position.x;
+            unit.attackFromPosition.y = unit.position.y;
+        }
+
     }
 
     private attackHoundTarget(
         unit: IHoundUnit,
-        dt: number
+        dt: number,
+        gameLogic: IGameLogic
     ) {
 
         const unitToTarget = {
@@ -109,6 +129,13 @@ export class HoundUnitSystem implements IGameSystem {
                 unit.attackTimer = 0;
                 const damage = Math.max(0, unit.ap - unit.target.dp);
                 unit.target.hp -= damage;
+                gameLogic.trigger(
+                    'unit.attacked',
+                    {
+                        unit,
+                        target: unit.target,
+                    }
+                );
             }
         } else {
             unit.attackTimer = 0;
@@ -121,6 +148,8 @@ export class HoundUnitSystem implements IGameSystem {
         dt: number
     ): void {
 
+        unit.kinematic = false;
+
         const randomAcceleration = {
             x: Math.random() - 0.5,
             y: Math.random() - 0.5
@@ -132,8 +161,8 @@ export class HoundUnitSystem implements IGameSystem {
         randomAcceleration.x /= randomAccelerationLength;
         randomAcceleration.y /= randomAccelerationLength;
 
-        unit.velocity.x += randomAcceleration.x * unit.baseAcceleration * unit.sp * dt;
-        unit.velocity.y += randomAcceleration.y * unit.baseAcceleration * unit.sp * dt;
+        unit.velocity.x += randomAcceleration.x * unit.baseAcceleration * 0.25 * unit.sp * dt;
+        unit.velocity.y += randomAcceleration.y * unit.baseAcceleration * 0.25 * unit.sp * dt;
 
     }
 
@@ -158,6 +187,10 @@ export class HoundUnitSystem implements IGameSystem {
 
         houndUnits.forEach(unit => {
 
+            if (unit.dead) {
+                return;
+            }
+
             if (unit.target && unit.target.dead) {
                 unit.target = null;
             }
@@ -168,7 +201,7 @@ export class HoundUnitSystem implements IGameSystem {
 
             if (unit.target) {
                 this.moveHoundTowardsTarget(unit, dt);
-                this.attackHoundTarget(unit, dt);
+                this.attackHoundTarget(unit, dt, gameLogic);
             } else {
                 this.moveHoundWithWandering(unit, dt);
             }
@@ -185,6 +218,11 @@ export class HoundUnitSystem implements IGameSystem {
         const g = gameLogic.context;
 
         houndUnits.forEach(unit => {
+
+            if (unit.dead) {
+                return;
+            }
+
             const canvasPos = worldToCanvas(
                 unit.position,
                 gameLogic.canvasSize
