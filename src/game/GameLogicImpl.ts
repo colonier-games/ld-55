@@ -1,16 +1,29 @@
 import { IGameAssets } from "./IGameAssets";
 import { IGameLogic } from "./IGameLogic";
+import { IEntity } from "./entity/IEntity";
+import { IGameSystem } from "./system/IGameSystem";
+import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
 
 export class GameLogicImpl implements IGameLogic {
 
-    private canvas: HTMLCanvasElement | null = null;
-    private context: CanvasRenderingContext2D | null = null;
+    private _canvas: HTMLCanvasElement | null = null;
+    private _context: CanvasRenderingContext2D | null = null;
+    private _systems: Array<IGameSystem> = [];
+    private _entities: Record<string, Array<IEntity>> = {};
     private lastFrameTime: number = 0;
 
     constructor(
         private gameAssets: IGameAssets
     ) {
 
+    }
+
+    get canvas(): HTMLCanvasElement {
+        return this._canvas;
+    }
+
+    get context(): CanvasRenderingContext2D {
+        return this._context;
     }
 
     private onWindowResized() {
@@ -20,13 +33,24 @@ export class GameLogicImpl implements IGameLogic {
         }
     }
 
+    private initSystems() {
+        this._systems.push(new LevelBackgroundSystem());
+
+        this._systems.forEach(system => {
+            console.log('[GameLogicImpl]', 'initSystems', system);
+            system.init(this, this.gameAssets);
+        });
+    }
+
     initCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D): void {
         console.log('[GameLogicImpl]', 'initCanvas', canvas, context);
-        this.canvas = canvas;
-        this.context = context;
+        this._canvas = canvas;
+        this._context = context;
 
         this.onWindowResized();
         window.addEventListener('resize', this.onWindowResized.bind(this));
+
+        this.initSystems();
 
         this.lastFrameTime = Date.now();
         window.requestAnimationFrame(this.onAnimationFrame.bind(this));
@@ -45,28 +69,30 @@ export class GameLogicImpl implements IGameLogic {
     }
 
     private tick(dt) {
-
+        this._systems.forEach(system => {
+            system.tick(dt, this);
+        });
     }
 
     private render(dt) {
         const g = this.context;
         const W = this.canvas.width;
         const H = this.canvas.height;
-        const Cx = W / 2;
-        const Cy = H / 2;
-        const Rw = Math.min(W, H);
-        const Rh = Rw;
+
 
         g.fillStyle = 'black';
         g.fillRect(0, 0, W, H);
 
-        g.drawImage(
-            this.gameAssets.getGraphics('levels.nether-woods'),
-            Cx - Rw / 2,
-            Cy - Rh / 2,
-            Rw,
-            Rh
-        );
+        this._systems.forEach(system => {
+            system.render(dt, this);
+        });
+    }
+
+    spawnEntity<T extends IEntity>(entityType: string, entityData: T): void {
+        if (!this._entities[entityType]) {
+            this._entities[entityType] = [];
+        }
+        this._entities[entityType].push(entityData);
     }
 
 }
