@@ -35,7 +35,9 @@ export function GameMain() {
                     }
                 );
 
-                gameLogicRef.current = new GameLogicImpl();
+                gameLogicRef.current = new GameLogicImpl(
+                    gameAssetsRef.current
+                );
                 gameAssetsRef.current.populateLoadingQueue();
                 setInitializing(false);
             }

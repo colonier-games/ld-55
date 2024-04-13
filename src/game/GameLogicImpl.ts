@@ -1,3 +1,4 @@
+import { IGameAssets } from "./IGameAssets";
 import { IGameLogic } from "./IGameLogic";
 
 export class GameLogicImpl implements IGameLogic {
@@ -6,7 +7,9 @@ export class GameLogicImpl implements IGameLogic {
     private context: CanvasRenderingContext2D | null = null;
     private lastFrameTime: number = 0;
 
-    constructor() {
+    constructor(
+        private gameAssets: IGameAssets
+    ) {
 
     }
 
@@ -49,9 +52,21 @@ export class GameLogicImpl implements IGameLogic {
         const g = this.context;
         const W = this.canvas.width;
         const H = this.canvas.height;
+        const Cx = W / 2;
+        const Cy = H / 2;
+        const Rw = Math.min(W, H);
+        const Rh = Rw;
 
         g.fillStyle = 'black';
         g.fillRect(0, 0, W, H);
+
+        g.drawImage(
+            this.gameAssets.getGraphics('levels.nether-woods'),
+            Cx - Rw / 2,
+            Cy - Rh / 2,
+            Rw,
+            Rh
+        );
     }
 
 }
