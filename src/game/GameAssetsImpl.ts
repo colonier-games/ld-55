@@ -56,9 +56,17 @@ export class GameAssetsImpl implements IGameAssets {
     populateLoadingQueue(): void {
 
         this.loadGraphics('levels.nether-woods', 'assets/levels/nether-woods.png')
-        this.loadGraphics('units.hound', 'assets/units/hound.png')
-        this.loadGraphics('units.hound.green', 'assets/units/hound-green.png')
-        this.loadGraphics('units.hound.red', 'assets/units/hound-red.png')
+
+        this.loadGraphics('units.hound.green', 'assets/units/peasant.png')
+        this.loadGraphics('units.hound.red', 'assets/units/skull.png')
+
+        this.loadGraphics('units.holy-knight', 'assets/units/holy-knight.png')
+        this.loadGraphics('units.devil', 'assets/units/devil.png')
+        this.loadGraphics('units.cerberus', 'assets/units/cerberus.png')
+        this.loadGraphics('units.peasant', 'assets/units/peasant.png')
+        this.loadGraphics('units.knight', 'assets/units/knight.png')
+        this.loadGraphics('units.skull', 'assets/units/skull.png')
+        this.loadGraphics('units.vampire', 'assets/units/vampire.png')
 
     }
 

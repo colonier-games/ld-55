@@ -5,7 +5,7 @@ import { IUnit, UNIT_ENTITY_TYPES, UNIT_OWNER_AI } from "../entity/IUnit";
 import { worldToCanvas } from "../utils/game-coordinates";
 import { IGameSystem } from "./IGameSystem";
 
-const HOUND_UNIT_SIZE = 32;
+const HOUND_UNIT_SIZE = 40;
 
 export class HoundUnitSystem implements IGameSystem {
 
