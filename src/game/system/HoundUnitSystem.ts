@@ -1,6 +1,6 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
-import { IHoundUnit } from "../entity/IHoundUnit";
+import { IHoundUnit, UNIT_HOUND_ATTACK_RANGE } from "../entity/IHoundUnit";
 import { IUnit, UNIT_ENTITY_TYPES, UNIT_OWNER_AI } from "../entity/IUnit";
 import { worldToCanvas } from "../utils/game-coordinates";
 import { IGameSystem } from "./IGameSystem";
@@ -48,6 +48,76 @@ export class HoundUnitSystem implements IGameSystem {
 
     }
 
+    private moveHoundTowardsTarget(
+        unit: IHoundUnit,
+        dt: number
+    ): void {
+        // Accelerate towards target
+        const targetAcceleration = {
+            x: unit.target.position.x - unit.position.x,
+            y: unit.target.position.y - unit.position.y
+        };
+        const targetAccelerationLength = Math.sqrt(
+            targetAcceleration.x * targetAcceleration.x +
+            targetAcceleration.y * targetAcceleration.y
+        );
+
+        // Normalize
+        if (targetAccelerationLength > 0) {
+            targetAcceleration.x /= targetAccelerationLength;
+            targetAcceleration.y /= targetAccelerationLength;
+        }
+
+        // Add a very little bit of random to acceleration
+        targetAcceleration.x += 0.25 * (Math.random() - 0.5);
+        targetAcceleration.y += 0.25 * (Math.random() - 0.5);
+
+        // Accelerate
+        unit.velocity.x += targetAcceleration.x * unit.baseAcceleration * unit.sp * dt;
+        unit.velocity.y += targetAcceleration.y * unit.baseAcceleration * unit.sp * dt;
+
+        // Clamp velocity
+        const velocityLength = Math.sqrt(
+            unit.velocity.x * unit.velocity.x +
+            unit.velocity.y * unit.velocity.y
+        );
+        if (velocityLength > unit.baseSpeed * unit.sp) {
+            unit.velocity.x /= velocityLength;
+            unit.velocity.y /= velocityLength;
+
+            unit.velocity.x *= unit.baseSpeed * unit.sp;
+            unit.velocity.y *= unit.baseSpeed * unit.sp;
+        }
+
+    }
+
+    private attackHoundTarget(
+        unit: IHoundUnit,
+        dt: number
+    ) {
+
+        const unitToTarget = {
+            x: unit.target.position.x - unit.position.x,
+            y: unit.target.position.y - unit.position.y
+        };
+        const unitToTargetLength = Math.sqrt(
+            unitToTarget.x * unitToTarget.x +
+            unitToTarget.y * unitToTarget.y
+        );
+
+        if (unitToTargetLength < UNIT_HOUND_ATTACK_RANGE) {
+            unit.attackTimer += dt;
+            if (unit.attackTimer >= unit.attackCooldown) {
+                unit.attackTimer = 0;
+                const damage = Math.max(0, unit.ap - unit.target.dp);
+                unit.target.hp -= damage;
+            }
+        } else {
+            unit.attackTimer = 0;
+        }
+
+    }
+
     tick(dt: number, gameLogic: IGameLogic): void {
 
         const houndUnits = gameLogic.getEntities<IHoundUnit>('units.hound');
@@ -55,45 +125,17 @@ export class HoundUnitSystem implements IGameSystem {
 
         houndUnits.forEach(unit => {
 
+            if (unit.target && unit.target.dead) {
+                unit.target = null;
+            }
+
             if (!unit.target || unit.target === null) {
                 this.findHoundTarget(unit, allUnits);
             }
 
-            // Accelerate towards target
-            const targetAcceleration = {
-                x: unit.target.position.x - unit.position.x,
-                y: unit.target.position.y - unit.position.y
-            };
-            const targetAccelerationLength = Math.sqrt(
-                targetAcceleration.x * targetAcceleration.x +
-                targetAcceleration.y * targetAcceleration.y
-            );
-
-            // Normalize
-            if (targetAccelerationLength > 0) {
-                targetAcceleration.x /= targetAccelerationLength;
-                targetAcceleration.y /= targetAccelerationLength;
-            }
-
-            // Add a very little bit of random to acceleration
-            targetAcceleration.x += 0.25 * (Math.random() - 0.5);
-            targetAcceleration.y += 0.25 * (Math.random() - 0.5);
-
-            // Accelerate
-            unit.velocity.x += targetAcceleration.x * unit.baseAcceleration * unit.sp * dt;
-            unit.velocity.y += targetAcceleration.y * unit.baseAcceleration * unit.sp * dt;
-
-            // Clamp velocity
-            const velocityLength = Math.sqrt(
-                unit.velocity.x * unit.velocity.x +
-                unit.velocity.y * unit.velocity.y
-            );
-            if (velocityLength > unit.baseSpeed * unit.sp) {
-                unit.velocity.x /= velocityLength;
-                unit.velocity.y /= velocityLength;
-
-                unit.velocity.x *= unit.baseSpeed * unit.sp;
-                unit.velocity.y *= unit.baseSpeed * unit.sp;
+            if (unit.target) {
+                this.moveHoundTowardsTarget(unit, dt);
+                this.attackHoundTarget(unit, dt);
             }
 
         });

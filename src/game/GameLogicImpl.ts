@@ -5,6 +5,7 @@ import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
 import { UnitArenaBoundsSystem } from "./system/UnitArenaBoundsSystem";
+import { UnitKillingSystem } from "./system/UnitKillingSystem";
 import { UnitMovementSystem } from "./system/UnitMovementSystem";
 import { UnitTestingSystem } from "./system/UnitTestingSystem";
 
@@ -49,6 +50,7 @@ export class GameLogicImpl implements IGameLogic {
             new HoundUnitSystem(),
             new UnitMovementSystem(),
             new UnitArenaBoundsSystem(),
+            new UnitKillingSystem(),
             new UnitTestingSystem()
         );
 
