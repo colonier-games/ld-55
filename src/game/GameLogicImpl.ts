@@ -4,6 +4,12 @@ import { IEntity } from "./entity/IEntity";
 import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
+import { PlayerBuildingBuySystem } from "./system/PlayerBuildingBuySystem";
+import { PlayerBuildingsNotificationSystem } from "./system/PlayerBuildingsNotificationSystem";
+import { PlayerBuildingsSystem } from "./system/PlayerBuildingsSystem";
+import { PlayerInitSystem } from "./system/PlayerInitSystem";
+import { PlayerMoneyEarningSystem } from "./system/PlayerMoneyEarningSystem";
+import { PlayerMoneyNotificationSystem } from "./system/PlayerMoneyNotificationSystem";
 import { UnitArenaBoundsSystem } from "./system/UnitArenaBoundsSystem";
 import { UnitKillingSystem } from "./system/UnitKillingSystem";
 import { UnitMovementSystem } from "./system/UnitMovementSystem";
@@ -16,6 +22,7 @@ export class GameLogicImpl implements IGameLogic {
     private _systems: Array<IGameSystem> = [];
     private _entities: Record<string, Array<IEntity>> = {};
     private _canvasSize: { width: number, height: number } = { width: 0, height: 0 };
+    private _eventListeners: Record<string, Array<(eventData: any) => void>> = {};
     private lastFrameTime: number = 0;
 
     constructor(
@@ -46,12 +53,18 @@ export class GameLogicImpl implements IGameLogic {
     private initSystems() {
 
         this._systems.push(
+            new PlayerInitSystem(),
             new LevelBackgroundSystem(),
             new HoundUnitSystem(),
             new UnitMovementSystem(),
             new UnitArenaBoundsSystem(),
             new UnitKillingSystem(),
-            new UnitTestingSystem()
+            new UnitTestingSystem(),
+            new PlayerBuildingsSystem(),
+            new PlayerMoneyEarningSystem(),
+            new PlayerMoneyNotificationSystem(),
+            new PlayerBuildingBuySystem(),
+            new PlayerBuildingsNotificationSystem()
         );
 
         this._systems.forEach(system => {
@@ -146,6 +159,21 @@ export class GameLogicImpl implements IGameLogic {
 
     getEntity<T extends IEntity>(entityType: string, entityId: number) {
         return this.getEntities<T>(entityType).find(entity => entity.id === entityId);
+    }
+
+    addEventListener<T>(eventType: string, listener: (eventData: T) => void): void {
+        if (!this._eventListeners[eventType]) {
+            this._eventListeners[eventType] = [];
+        }
+        this._eventListeners[eventType].push(listener);
+    }
+
+    trigger<T>(eventType: string, eventData: T): void {
+        if (this._eventListeners[eventType]) {
+            this._eventListeners[eventType].forEach(listener => {
+                listener(eventData);
+            });
+        }
     }
 
 }

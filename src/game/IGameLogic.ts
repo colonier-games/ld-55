@@ -20,4 +20,13 @@ export interface IGameLogic {
     getEntities<T extends IEntity>(entityType: string | Array<string>): Array<T>;
     getEntity<T extends IEntity>(entityType: string, entityId: number): T | undefined;
 
+    trigger<T>(
+        eventType: string,
+        eventData: T
+    ): void;
+    addEventListener<T>(
+        eventType: string,
+        listener: (eventData: T) => void
+    ): void;
+
 }

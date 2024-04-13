@@ -22,8 +22,6 @@ export class HoundUnitSystem implements IGameSystem {
         allUnits: Array<IUnit>
     ): void {
 
-        console.log('[HoundUnitSystem]', 'findHoundTarget', unit);
-
         // Check if allUnits even has any potential candidates
         if (allUnits.length === 0) {
             return;
