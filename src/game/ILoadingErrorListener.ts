@@ -1,0 +1,1 @@
+export type ILoadingErrorListener = (message: string) => void;

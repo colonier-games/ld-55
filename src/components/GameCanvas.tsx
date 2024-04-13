@@ -4,10 +4,12 @@ import {
     useState
 } from 'react';
 import { IGameLogic } from "../game/IGameLogic";
+import { IGameAssets } from '../game/IGameAssets';
 
 export function GameCanvas(
     props: {
         gameLogic: IGameLogic
+        gameAssets: IGameAssets
     }
 ) {
     const [initializing, setInitializing] = useState(true);
