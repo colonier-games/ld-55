@@ -2,6 +2,10 @@
 
 Welcome to _Colonier Games's_ submission for the _55th Ludum Dare_! [Ludum Dare](https://ldjam.com) is a game jam, held twice a year. We are participating for the 11th time in this jam. The theme of LD 55 is: _Summoning_.
 
+## Playing
+
+[Click here](https://ld55.bokov.me) to play the game in your browser!
+
 ## Building
 
 To build the game, do the following:
