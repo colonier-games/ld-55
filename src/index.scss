@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Metal Mania';
+    src: url(assets/fonts/MetalMania-Regular.ttf) format('truetype');
+}
+
 html,
 body {
     width: 100%;
@@ -11,4 +16,5 @@ body {
 
 * {
     box-sizing: border-box;
+    font-family: 'Metal Mania', cursive;
 }
