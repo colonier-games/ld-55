@@ -116,6 +116,41 @@ export class HoundUnitSystem implements IGameSystem {
 
     }
 
+    private moveHoundWithWandering(
+        unit: IHoundUnit,
+        dt: number
+    ): void {
+
+        const randomAcceleration = {
+            x: Math.random() - 0.5,
+            y: Math.random() - 0.5
+        };
+        const randomAccelerationLength = Math.sqrt(
+            randomAcceleration.x * randomAcceleration.x +
+            randomAcceleration.y * randomAcceleration.y
+        );
+        randomAcceleration.x /= randomAccelerationLength;
+        randomAcceleration.y /= randomAccelerationLength;
+
+        unit.velocity.x += randomAcceleration.x * unit.baseAcceleration * unit.sp * dt;
+        unit.velocity.y += randomAcceleration.y * unit.baseAcceleration * unit.sp * dt;
+
+    }
+
+    private clampHoundVelocity(unit: IHoundUnit): void {
+        const velocityLength = Math.sqrt(
+            unit.velocity.x * unit.velocity.x +
+            unit.velocity.y * unit.velocity.y
+        );
+        if (velocityLength > unit.baseSpeed * unit.sp) {
+            unit.velocity.x /= velocityLength;
+            unit.velocity.y /= velocityLength;
+
+            unit.velocity.x *= unit.baseSpeed * unit.sp;
+            unit.velocity.y *= unit.baseSpeed * unit.sp;
+        }
+    }
+
     tick(dt: number, gameLogic: IGameLogic): void {
 
         const houndUnits = gameLogic.getEntities<IHoundUnit>('units.hound');
@@ -134,7 +169,11 @@ export class HoundUnitSystem implements IGameSystem {
             if (unit.target) {
                 this.moveHoundTowardsTarget(unit, dt);
                 this.attackHoundTarget(unit, dt);
+            } else {
+                this.moveHoundWithWandering(unit, dt);
             }
+
+            this.clampHoundVelocity(unit);
 
         });
 
