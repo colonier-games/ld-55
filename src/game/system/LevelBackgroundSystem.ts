@@ -7,7 +7,17 @@ export class LevelBackgroundSystem implements IGameSystem {
     private _backgroundImage: HTMLImageElement | null = null;
 
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
-        this._backgroundImage = gameAssets.getGraphics('levels.nether-woods');
+        const levelNames = [
+            'levels.nether-woods',
+            'levels.ruins',
+            'levels.dungeon',
+            'levels.lava',
+            'levels.lake',
+            'levels.throneroom'
+        ]
+        this._backgroundImage = gameAssets.getGraphics(
+            levelNames[Math.floor(Math.random() * levelNames.length)]
+        );
     }
 
     tick(dt: number, gameLogic: IGameLogic): void {

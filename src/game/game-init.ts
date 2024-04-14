@@ -30,6 +30,11 @@ export const GAME_SYSTEM_CTORS = [
 
 export const GAME_GRAPHICS = {
     "levels.nether-woods": "assets/levels/nether-woods.png",
+    "levels.ruins": "assets/levels/ruins.png",
+    "levels.dungeon": "assets/levels/dungeon.png",
+    "levels.lava": "assets/levels/lava.png",
+    "levels.lake": "assets/levels/lake.png",
+    "levels.throneroom": "assets/levels/throneroom.png",
     "units.hound.green": "assets/units/peasant.png",
     "units.hound.red": "assets/units/skull.png",
     "units.holy-knight": "assets/units/holy-knight.png",
