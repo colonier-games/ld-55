@@ -1,6 +1,7 @@
 import { IGameAssets } from "./IGameAssets";
 import { ILoadingErrorListener } from "./ILoadingErrorListener";
 import { ILoadingProgressListener } from "./ILoadingProgressListener";
+import { GAME_GRAPHICS } from "./game-init";
 
 export class GameAssetsImpl implements IGameAssets {
 
@@ -55,18 +56,9 @@ export class GameAssetsImpl implements IGameAssets {
 
     populateLoadingQueue(): void {
 
-        this.loadGraphics('levels.nether-woods', 'assets/levels/nether-woods.png')
-
-        this.loadGraphics('units.hound.green', 'assets/units/peasant.png')
-        this.loadGraphics('units.hound.red', 'assets/units/skull.png')
-
-        this.loadGraphics('units.holy-knight', 'assets/units/holy-knight.png')
-        this.loadGraphics('units.devil', 'assets/units/devil.png')
-        this.loadGraphics('units.cerberus', 'assets/units/cerberus.png')
-        this.loadGraphics('units.peasant', 'assets/units/peasant.png')
-        this.loadGraphics('units.knight', 'assets/units/knight.png')
-        this.loadGraphics('units.skull', 'assets/units/skull.png')
-        this.loadGraphics('units.vampire', 'assets/units/vampire.png')
+        Object.keys(GAME_GRAPHICS).forEach(key => {
+            this.loadGraphics(key, GAME_GRAPHICS[key]);
+        });
 
     }
 

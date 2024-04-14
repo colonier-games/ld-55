@@ -1,6 +1,7 @@
 import { IGameAssets } from "./IGameAssets";
 import { IGameLogic } from "./IGameLogic";
 import { IEntity } from "./entity/IEntity";
+import { GAME_SYSTEM_CTORS } from "./game-init";
 import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
@@ -55,19 +56,7 @@ export class GameLogicImpl implements IGameLogic {
     private initSystems() {
 
         this._systems.push(
-            new PlayerInitSystem(),
-            new LevelBackgroundSystem(),
-            new HoundUnitSystem(),
-            new UnitMovementSystem(),
-            new UnitArenaBoundsSystem(),
-            new UnitKillingSystem(),
-            new UnitTestingSystem(),
-            new PlayerBuildingsSystem(),
-            new PlayerMoneyEarningSystem(),
-            new PlayerMoneyNotificationSystem(),
-            new PlayerBuildingBuySystem(),
-            new PlayerBuildingsNotificationSystem(),
-            new UnitHealthBarSystem()
+            ...GAME_SYSTEM_CTORS.map(ctor => new ctor())
         );
 
         this._systems.forEach(system => {
