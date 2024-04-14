@@ -1,4 +1,5 @@
 import { IEntity } from "./entity/IEntity";
+import { IGameLevel } from "./level/IGameLevel";
 
 export interface IGameLogic {
 
@@ -19,6 +20,7 @@ export interface IGameLogic {
     getAllEntities(): Array<IEntity>;
     getEntities<T extends IEntity>(entityType: string | Array<string>): Array<T>;
     getEntity<T extends IEntity>(entityType: string, entityId: number): T | undefined;
+    getLevel(): IGameLevel;
 
     trigger<T>(
         eventType: string,

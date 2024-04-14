@@ -2,6 +2,8 @@ import { IGameAssets } from "./IGameAssets";
 import { IGameLogic } from "./IGameLogic";
 import { IEntity } from "./entity/IEntity";
 import { GAME_SYSTEM_CTORS } from "./game-init";
+import { IGameLevel } from "./level/IGameLevel";
+import { FIRST_GAME_LEVEL } from "./level/game-levels";
 import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
@@ -25,6 +27,7 @@ export class GameLogicImpl implements IGameLogic {
     private _entities: Record<string, Array<IEntity>> = {};
     private _canvasSize: { width: number, height: number } = { width: 0, height: 0 };
     private _eventListeners: Record<string, Array<(eventData: any) => void>> = {};
+    private _gameLevel: IGameLevel = FIRST_GAME_LEVEL;
     private lastFrameTime: number = 0;
 
     constructor(
@@ -151,6 +154,10 @@ export class GameLogicImpl implements IGameLogic {
 
     getEntity<T extends IEntity>(entityType: string, entityId: number) {
         return this.getEntities<T>(entityType).find(entity => entity.id === entityId);
+    }
+
+    getLevel(): IGameLevel {
+        return this._gameLevel;
     }
 
     addEventListener<T>(eventType: string, listener: (eventData: T) => void): void {

@@ -1,28 +1,29 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
+import { ALL_GAME_LEVELS } from "../level/game-levels";
 import { IGameSystem } from "./IGameSystem";
 
 /** Responsible for drawing the level background image on the game canvas. */
 export class LevelBackgroundSystem implements IGameSystem {
 
+    private _levelBackgroundImages: Record<string, HTMLImageElement> = {};
     private _backgroundImage: HTMLImageElement | null = null;
+    private _levelName: string = "";
 
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
-        const levelNames = [
-            'levels.nether-woods',
-            'levels.ruins',
-            'levels.dungeon',
-            'levels.lava',
-            'levels.lake',
-            'levels.throneroom'
-        ]
-        this._backgroundImage = gameAssets.getGraphics(
-            levelNames[Math.floor(Math.random() * levelNames.length)]
-        );
+        ALL_GAME_LEVELS.forEach((level) => {
+            this._levelBackgroundImages[level.name] = gameAssets.getGraphics(level.backgroundAssetName);
+        });
+        this._backgroundImage = this._levelBackgroundImages[gameLogic.getLevel().name];
+        this._levelName = gameLogic.getLevel().name;
     }
 
     tick(dt: number, gameLogic: IGameLogic): void {
-
+        const currentLevelName = gameLogic.getLevel().name;
+        if (this._levelName !== currentLevelName) {
+            this._levelName = currentLevelName;
+            this._backgroundImage = this._levelBackgroundImages[currentLevelName];
+        }
     }
 
     render(dt: number, gameLogic: IGameLogic): void {
