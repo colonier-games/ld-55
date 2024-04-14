@@ -59,8 +59,8 @@ export function GameMain() {
         </div>;
     } else {
         return <div className="game-main">
-            <GameCanvas gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
             <GameUI gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
+            <GameCanvas gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
         </div>;
     }
 }

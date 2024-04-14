@@ -32,30 +32,34 @@ body {
 .game-main {
     position: relative;
     @include full-size;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 
     .game-canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1;
+        flex-grow: 1;
+        width: 100%;
     }
 
     .game-ui {
-        @include full-size;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
+        flex-grow: 0;
+        width: 100%;
+        ;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         pointer-events: none;
         user-select: none;
 
         .game-ui-top-bar {
             width: 100%;
             background: #f00;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .game-ui-bottom-bar {
@@ -70,6 +74,45 @@ body {
             padding: 4px;
             border: 0;
             border-radius: 4px;
+        }
+
+        .game-ui-building-menu {
+            position: fixed;
+            width: 300px;
+            height: 400px;
+            background: #666;
+            box-shadow: 1px 1px 10px 0px #666;
+            z-index: 10;
+            top: 64px;
+            transition: all 0.3s ease-in-out;
+            border-radius: 8px;
+
+            &.opened {
+                left: 0;
+            }
+
+            &.closed {
+                left: -320px;
+            }
+
+        }
+
+        .game-ui-shrine-button {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            width: 128px;
+            height: 128px;
+            background-image: url(assets/buildings/shrine.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            pointer-events: all;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .game-ui-shrine-button:hover {
+            background-image: url(assets/buildings/shrine-hover.png);
         }
     }
 }
