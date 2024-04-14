@@ -9,6 +9,7 @@ import { IGameSystem } from "./IGameSystem";
 
 const HOUND_UNIT_SIZE = 40;
 
+/** Responsible for the targeting, movement and attacking of hound-type meelee units. */
 export class HoundUnitSystem implements IGameSystem {
 
     private _playerUnitImage: HTMLImageElement | null = null;

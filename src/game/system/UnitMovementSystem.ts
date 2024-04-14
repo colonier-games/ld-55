@@ -1,8 +1,9 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
-import { UNIT_ENTITY_TYPES } from "../entity/IUnit";
+import { IUnit, UNIT_ENTITY_TYPES } from "../entity/IUnit";
 import { IGameSystem } from "./IGameSystem";
 
+/** Moves units based on their velocity. */
 export class UnitMovementSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 

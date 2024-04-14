@@ -3,6 +3,7 @@ import { IGameLogic } from "../IGameLogic";
 import { IPlayer, PLAYER_BUILDING_TYPE_CHARACTERISTICS, PlayerBuildingInfo } from "../entity/IPlayer";
 import { IGameSystem } from "./IGameSystem";
 
+/** Publishes the status of the player's buildings as the player.buildings.changed event every frame. */
 export class PlayerBuildingsNotificationSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 

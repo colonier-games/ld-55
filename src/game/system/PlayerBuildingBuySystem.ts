@@ -3,6 +3,7 @@ import { IGameLogic } from "../IGameLogic";
 import { IPlayer, PLAYER_BUILDING_TYPE_CHARACTERISTICS } from "../entity/IPlayer";
 import { IGameSystem } from "./IGameSystem";
 
+/** Responsible for executing the building buy requests of the player (signalled by the player.building.buy event). */
 export class PlayerBuildingBuySystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 

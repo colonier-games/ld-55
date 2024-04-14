@@ -8,6 +8,7 @@ export const HEALTH_BAR_SIZE = 4;
 export const HEALTH_BAR_SPACING = 2;
 export const HEALTH_BAR_OFFSET = 42;
 
+/** Renders health bars above units. */
 export class UnitHealthBarSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 

@@ -2,6 +2,7 @@ import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { IGameSystem } from "./IGameSystem";
 
+/** Responsible for drawing the level background image on the game canvas. */
 export class LevelBackgroundSystem implements IGameSystem {
 
     private _backgroundImage: HTMLImageElement | null = null;

@@ -3,6 +3,7 @@ import { IGameLogic } from "../IGameLogic";
 import { IUnit, UNIT_ENTITY_TYPES } from "../entity/IUnit";
 import { IGameSystem } from "./IGameSystem";
 
+/** Kills units when their hp reaches 0. */
 export class UnitKillingSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 

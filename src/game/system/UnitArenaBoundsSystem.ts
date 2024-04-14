@@ -4,6 +4,7 @@ import { IUnit, UNIT_ENTITY_TYPES } from "../entity/IUnit";
 import { WORLD_SIZE } from "../utils/game-coordinates";
 import { IGameSystem } from "./IGameSystem";
 
+/** Responsible for keeping all units within the bounds of the world. */
 export class UnitArenaBoundsSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 
