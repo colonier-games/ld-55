@@ -51,8 +51,8 @@ export class GameLogicImpl implements IGameLogic {
     private onWindowResized() {
         if (this.canvas) {
             const parentEl = this.canvas.parentElement;
-            this.canvas.width = parentEl.clientWidth;
-            this.canvas.height = parentEl.clientHeight;
+            this.canvas.width = Math.floor(parentEl.clientWidth);
+            this.canvas.height = Math.floor(parentEl.clientHeight);
         }
     }
 

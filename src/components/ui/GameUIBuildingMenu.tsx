@@ -49,9 +49,6 @@ export function GameUIBuildingMenu(
 
     const buildingButtons = playerBuildingInfos.map(
         (buildingInfo, index) => {
-            /* return <button className="game-ui-button" key={index} onClick={() => onBuyBuildingOfType(buildingInfo.buildingType.name)}>
-                {buildingInfo.buildingType.name} ({buildingInfo.buildingCount}) | C: {buildingInfo.buildingType.characteristics.cost}
-            </button> */
             return <div>
                 <GameUICard title={buildingInfo.buildingType.characteristics.displayName}
                     imageUrl={buildingInfo.buildingType.characteristics.imageUrl}
@@ -69,20 +66,6 @@ export function GameUIBuildingMenu(
         }
     );
 
-    /* const summoningButtons = [
-        <GameUICard imageUrl="assets/units/peasant.png"
-            action="Summon"
-            description={
-                <div>
-                    <p>C: <span className="white">{UNIT_TYPE_CHARACTERISTICS['units.peasant'].cost}</span> | AP: <span className="white">{UNIT_HOUND_BASE_DP}</span> | HP: <span className="white">{UNIT_HOUND_BASE_HP}</span></p>
-                    <p>You have: <span className="white">{</span></p>
-                </div>
-            }
-            title="Peasant"
-            onAction={onSummonPeasant}
-            key="summon-hound"
-        />
-    ]; */
     const summoningButtons = Object.keys(UNIT_TYPE_CHARACTERISTICS).map(
         (unitType, index) => {
             const unitCharacteristics = UNIT_TYPE_CHARACTERISTICS[unitType];

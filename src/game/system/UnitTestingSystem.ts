@@ -1,6 +1,8 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
+import { createHolyKnightUnit } from "../entity/IHolyKnightUnit";
 import { IHoundUnit, createHoundUnit } from "../entity/IHoundUnit";
+import { IKnightUnit, createKnightUnit } from "../entity/IKnight";
 import { createPeasantUnit } from "../entity/IPeasantUnit";
 import { IPlayer } from "../entity/IPlayer";
 import { UNIT_OWNER_AI, UNIT_OWNER_PLAYER } from "../entity/IUnit";
@@ -10,8 +12,30 @@ import { IGameSystem } from "./IGameSystem";
 export class UnitTestingSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 25; i++) {
             gameLogic.spawnEntity<IHoundUnit>('units.peasant', createPeasantUnit({
+                position: {
+                    x: 1000 * Math.random(),
+                    y: 1000 * Math.random()
+                },
+                owner: UNIT_OWNER_PLAYER,
+                level: 0
+            }));
+        }
+
+        for (let i = 0; i < 10; i++) {
+            gameLogic.spawnEntity<IKnightUnit>('units.knight', createKnightUnit({
+                position: {
+                    x: 1000 * Math.random(),
+                    y: 1000 * Math.random()
+                },
+                owner: UNIT_OWNER_PLAYER,
+                level: 0
+            }));
+        }
+
+        for (let i = 0; i < 7; i++) {
+            gameLogic.spawnEntity<IHoundUnit>('units.holy-knight', createHolyKnightUnit({
                 position: {
                     x: 1000 * Math.random(),
                     y: 1000 * Math.random()

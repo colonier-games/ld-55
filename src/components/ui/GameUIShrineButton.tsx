@@ -23,5 +23,6 @@ export function GameUIShrineButton(
         }
         action="Pray"
         onAction={onEarnFromShrine}
+        holdable={true}
     />
 }

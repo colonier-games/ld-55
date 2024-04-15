@@ -74,7 +74,11 @@ export interface IPlayer extends IEntity {
     money: number;
     buildings: Record<PlayerBuildingType, number>;
     productionTimers: Record<PlayerBuildingType, number>;
+    holdLevel: number;
 }
+
+export const PLAYER_HOLD_BASE_TIME = 0.5;
+export const PLAYER_HOLD_TIME_REDUCTION_PER_LEVEL = 0.05;
 
 export function createPlayer(): IPlayer {
     return {
@@ -89,6 +93,7 @@ export function createPlayer(): IPlayer {
         productionTimers: PLAYER_BUILDING_TYPES.reduce((acc, type) => {
             acc[type] = 0;
             return acc;
-        }, {} as Record<PlayerBuildingType, number>)
+        }, {} as Record<PlayerBuildingType, number>),
+        holdLevel: 0
     };
 }
