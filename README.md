@@ -6,6 +6,14 @@ Welcome to _Colonier Games's_ submission for the _55th Ludum Dare_! [Ludum Dare]
 
 [Click here](https://ld55.bokov.me) to play the game in your browser!
 
+## Screenshots
+
+![](./public/screenshots/screenshot-1.png)
+
+![](./public/screenshots/screenshot-2.png)
+
+![](./public/screenshots/screenshot-3.png)
+
 ## Building
 
 To build the game, do the following:
