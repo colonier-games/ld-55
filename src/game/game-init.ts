@@ -18,6 +18,7 @@ import { WaveFinishingSystem } from "./system/WaveFinishingSystem";
 import { WaveInitSystem } from "./system/WaveInitSystem";
 import { WaveSpawningSystem } from "./system/WaveSpawningSystem";
 import { WaveTimerSystem } from "./system/WaveTimerSystem";
+import { PlayerUnitsNotificationSystem } from "./system/PlayerUnitsNotificationSystem";
 
 export const GAME_SYSTEM_CTORS = [
     PlayerInitSystem,
@@ -39,7 +40,8 @@ export const GAME_SYSTEM_CTORS = [
     WaveActivationSystem,
     WaveSpawningSystem,
     WaveFinishingSystem,
-    LevelFinishingSystem
+    LevelFinishingSystem,
+    PlayerUnitsNotificationSystem
 ];
 
 export const GAME_GRAPHICS = {

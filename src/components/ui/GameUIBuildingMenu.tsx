@@ -3,7 +3,7 @@ import { IGameLogic } from "../../game/IGameLogic";
 import { PlayerBuildingInfo } from "../../game/entity/IPlayer";
 import { GameUICard } from "./GameUICard";
 import { GameUIShrineButton } from "./GameUIShrineButton";
-import { UNIT_TYPE_CHARACTERISTICS } from "../../game/entity/IUnit";
+import { IUnit, UNIT_TYPE_CHARACTERISTICS, UnitType } from "../../game/entity/IUnit";
 import { UNIT_HOUND_BASE_DP, UNIT_HOUND_BASE_HP } from "../../game/entity/IHoundUnit";
 
 export function GameUIBuildingMenu(
@@ -12,6 +12,7 @@ export function GameUIBuildingMenu(
     }
 ) {
     const [playerBuildingInfos, setPlayerBuildingInfos] = useState<PlayerBuildingInfo[]>([]);
+    const [playerUnits, setPlayerUnits] = useState<Record<UnitType, number>>({});
 
     useEffect(
         () => {
@@ -20,7 +21,13 @@ export function GameUIBuildingMenu(
                 (buildingInfos: Array<PlayerBuildingInfo>) => {
                     setPlayerBuildingInfos(buildingInfos);
                 }
-            )
+            );
+            props.gameLogic.addEventListener(
+                'player.units.changed',
+                (units: Record<UnitType, number>) => {
+                    setPlayerUnits(units);
+                }
+            );
         },
         []
     );
@@ -33,10 +40,10 @@ export function GameUIBuildingMenu(
         console.log('[GameUIBuildingMenu]', 'onBuyBuildingOfType', buildingType);
     };
 
-    const onSummonPeasant = () => {
+    const onSummonUnitOfType = (unitType: UnitType) => {
         props.gameLogic.trigger(
             'player.summon',
-            { unitType: 'units.peasant' }
+            { unitType }
         );
     };
 
@@ -62,19 +69,39 @@ export function GameUIBuildingMenu(
         }
     );
 
-    const summoningButtons = [
+    /* const summoningButtons = [
         <GameUICard imageUrl="assets/units/peasant.png"
             action="Summon"
             description={
                 <div>
                     <p>C: <span className="white">{UNIT_TYPE_CHARACTERISTICS['units.peasant'].cost}</span> | AP: <span className="white">{UNIT_HOUND_BASE_DP}</span> | HP: <span className="white">{UNIT_HOUND_BASE_HP}</span></p>
+                    <p>You have: <span className="white">{</span></p>
                 </div>
             }
             title="Peasant"
             onAction={onSummonPeasant}
             key="summon-hound"
         />
-    ];
+    ]; */
+    const summoningButtons = Object.keys(UNIT_TYPE_CHARACTERISTICS).map(
+        (unitType, index) => {
+            const unitCharacteristics = UNIT_TYPE_CHARACTERISTICS[unitType];
+            return <div>
+                <GameUICard imageUrl={unitCharacteristics.imageUrl}
+                    action="Summon"
+                    description={
+                        <div>
+                            <p>C: <span className="white">{unitCharacteristics.cost}</span> | AP: <span className="white">{unitCharacteristics.ap}</span> | HP: <span className="white">{unitCharacteristics.hp}</span></p>
+                            <p>You have: <span className="white">{playerUnits[unitType] ? playerUnits[unitType] : 0}</span></p>
+                        </div>
+                    }
+                    title={unitCharacteristics.displayName}
+                    onAction={() => onSummonUnitOfType(unitType as UnitType)}
+                    key={index}
+                />
+            </div>;
+        }
+    );
 
     return <div className={"game-ui-building-menu"}>
         <GameUIShrineButton gameLogic={props.gameLogic} />

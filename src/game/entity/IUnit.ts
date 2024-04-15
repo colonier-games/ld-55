@@ -1,4 +1,5 @@
 import { IEntity } from "./IEntity";
+import { UNIT_PEASANT_BASE_AP, UNIT_PEASANT_BASE_HP } from "./IPeasantUnit";
 
 export const UNIT_OWNER_AI = 0;
 export const UNIT_OWNER_PLAYER = 1;
@@ -28,10 +29,18 @@ export type UnitType = typeof UNIT_ENTITY_TYPES[number];
 
 export interface UnitTypeCharacteristics {
     cost: number;
+    imageUrl: string;
+    displayName: string;
+    hp: number;
+    ap: number;
 }
 
 export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics> = {
     "units.peasant": {
-        cost: 10
+        cost: 10,
+        imageUrl: 'assets/units/peasant.png',
+        displayName: 'Peasant',
+        hp: UNIT_PEASANT_BASE_HP,
+        ap: UNIT_PEASANT_BASE_AP
     }
 };
