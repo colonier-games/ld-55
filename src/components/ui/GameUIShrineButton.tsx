@@ -4,8 +4,10 @@ import { GameUICard } from "./GameUICard";
 export function GameUIShrineButton(
     props: {
         gameLogic: IGameLogic
+        holdDuration?: number
     }
 ) {
+
     const onEarnFromShrine = () => {
         props.gameLogic.trigger(
             'player.money.earned',
@@ -23,6 +25,7 @@ export function GameUIShrineButton(
         }
         action="Pray"
         onAction={onEarnFromShrine}
-        holdable={true}
+        holdable
+        holdDuration={props.holdDuration || 1}
     />
 }

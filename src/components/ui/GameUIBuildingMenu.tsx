@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IGameLogic } from "../../game/IGameLogic";
-import { PlayerBuildingInfo } from "../../game/entity/IPlayer";
+import { PLAYER_HOLD_BASE_TIME, PlayerBuildingInfo } from "../../game/entity/IPlayer";
 import { GameUICard } from "./GameUICard";
 import { GameUIShrineButton } from "./GameUIShrineButton";
 import { IUnit, UNIT_TYPE_CHARACTERISTICS, UnitType } from "../../game/entity/IUnit";
@@ -13,6 +13,7 @@ export function GameUIBuildingMenu(
 ) {
     const [playerBuildingInfos, setPlayerBuildingInfos] = useState<PlayerBuildingInfo[]>([]);
     const [playerUnits, setPlayerUnits] = useState<Record<UnitType, number>>({});
+    const [playerHoldTime, setPlayerHoldTime] = useState<number>(PLAYER_HOLD_BASE_TIME);
 
     useEffect(
         () => {
@@ -81,13 +82,15 @@ export function GameUIBuildingMenu(
                     title={unitCharacteristics.displayName}
                     onAction={() => onSummonUnitOfType(unitType as UnitType)}
                     key={index}
+                    holdable
+                    holdDuration={playerHoldTime}
                 />
             </div>;
         }
     );
 
     return <div className={"game-ui-building-menu"}>
-        <GameUIShrineButton gameLogic={props.gameLogic} />
+        <GameUIShrineButton gameLogic={props.gameLogic} holdDuration={playerHoldTime} />
         {buildingButtons}
         {summoningButtons}
     </div>
