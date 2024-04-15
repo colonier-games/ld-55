@@ -15,6 +15,7 @@ export function GameUIBuildingMenu(
     const [playerUnits, setPlayerUnits] = useState<Record<UnitType, number>>({});
     const [playerHoldTime, setPlayerHoldTime] = useState<number>(PLAYER_HOLD_BASE_TIME);
     const [playerHealCost, setPlayerHealCost] = useState<number>(0);
+    const [playerUnitUpgradeInfos, setPlayerUnitUpgradeInfos] = useState<Record<UnitType, number>>({});
 
     useEffect(
         () => {
@@ -36,6 +37,12 @@ export function GameUIBuildingMenu(
                     setPlayerHealCost(cost);
                 }
             );
+            props.gameLogic.addEventListener(
+                'player.units.upgrades-changed',
+                (unitUpgradeInfos: Record<UnitType, number>) => {
+                    setPlayerUnitUpgradeInfos(unitUpgradeInfos);
+                }
+            );
         },
         []
     );
@@ -51,6 +58,13 @@ export function GameUIBuildingMenu(
     const onSummonUnitOfType = (unitType: UnitType) => {
         props.gameLogic.trigger(
             'player.summon',
+            { unitType }
+        );
+    };
+
+    const onUpgradeUnitOfType = (unitType: UnitType) => {
+        props.gameLogic.trigger(
+            'player.units.upgrade',
             { unitType }
         );
     };
@@ -103,6 +117,34 @@ export function GameUIBuildingMenu(
         }
     );
 
+    const unitUpgradeButtons = Object.keys(UNIT_TYPE_CHARACTERISTICS).map(
+        (unitType, index) => {
+            const unitCharacteristics = UNIT_TYPE_CHARACTERISTICS[unitType];
+            const minUpgradeUnitCount = unitCharacteristics.upgradeUnitCountLevels[playerUnitUpgradeInfos[unitType]];
+            if (!minUpgradeUnitCount) {
+                return null;
+            }
+            if (playerUnits[unitType] < minUpgradeUnitCount) {
+                return null;
+            }
+
+            return <div>
+                <GameUICard imageUrl={unitCharacteristics.imageUrl}
+                    action="Upgrade"
+                    description={
+                        <div>
+                            <p>C: <span className="white">{unitCharacteristics.upgradeCosts[playerUnitUpgradeInfos[unitType]]}</span></p>
+                            <p>Upgrade to level <span className="white">{playerUnitUpgradeInfos[unitType] + 1}</span></p>
+                        </div>
+                    }
+                    title={"Upgrade " + unitCharacteristics.displayName}
+                    onAction={() => onUpgradeUnitOfType(unitType as UnitType)}
+                    key={`${unitType}-${index}`}
+                />
+            </div>;
+        }
+    ).filter(b => !!b);
+
     const healButton = (<div>
         <GameUICard imageUrl="assets/icons/praying-hands.png"
             title="Heal"
@@ -121,6 +163,7 @@ export function GameUIBuildingMenu(
         <GameUIShrineButton gameLogic={props.gameLogic} holdDuration={playerHoldTime} />
         {buildingButtons}
         {summoningButtons}
+        {unitUpgradeButtons}
         {playerHealCost > 0 && healButton}
     </div>
 }

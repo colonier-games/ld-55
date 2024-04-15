@@ -39,7 +39,6 @@ export class PlayerUnitUpgradeSystem implements IGameSystem {
         unitType: UnitType,
         gameLogic: IGameLogic
     ): void {
-        player.unitUpgradeLevels[unitType] = (player.unitUpgradeLevels[unitType] || 0) + 1;
         const units = gameLogic.getEntities<IUnit>(unitType)
             .filter(u => u.owner === UNIT_OWNER_PLAYER);
         units.forEach(

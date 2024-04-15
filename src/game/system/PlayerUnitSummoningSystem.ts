@@ -16,25 +16,25 @@ export interface IPlayerUnitSummonProps {
 const SUMMON_UNIT_TYPES = [
     {
         unitType: "units.peasant",
-        create: (position: { x: number, y: number }) => createPeasantUnit({
+        create: (position: { x: number, y: number }, level: number) => createPeasantUnit({
             position,
-            level: 0,
+            level,
             owner: UNIT_OWNER_PLAYER
         })
     },
     {
         unitType: "units.holy-knight",
-        create: (position: { x: number, y: number }) => createHolyKnightUnit({
+        create: (position: { x: number, y: number }, level: number) => createHolyKnightUnit({
             position,
-            level: 0,
+            level,
             owner: UNIT_OWNER_PLAYER
         })
     },
     {
         unitType: "units.knight",
-        create: (position: { x: number, y: number }) => createKnightUnit({
+        create: (position: { x: number, y: number }, level: number) => createKnightUnit({
             position,
-            level: 0,
+            level,
             owner: UNIT_OWNER_PLAYER
         })
 
@@ -43,15 +43,15 @@ const SUMMON_UNIT_TYPES = [
 
 export class PlayerUnitSummoningSystem implements IGameSystem {
 
-    private createUnit(props: IPlayerUnitSummonProps): IUnit {
+    private createUnit(props: IPlayerUnitSummonProps, level: number): IUnit {
         const unitType = SUMMON_UNIT_TYPES.find(
             summonUnitType => summonUnitType.unitType === props.unitType
         );
         if (unitType) {
             return unitType.create({
                 x: WORLD_SIZE / 2,
-                y: WORLD_SIZE / 2
-            });
+                y: WORLD_SIZE / 2,
+            }, level);
         }
         throw new Error(`Unknown unit type: ${props.unitType}`);
     }
@@ -66,7 +66,7 @@ export class PlayerUnitSummoningSystem implements IGameSystem {
                 if (playerEntity.money >= unitTypeCharacteristics.cost) {
                     gameLogic.spawnEntity(
                         props.unitType,
-                        this.createUnit(props)
+                        this.createUnit(props, playerEntity.unitUpgradeLevels[props.unitType] || 0)
                     );
                     playerEntity.money -= unitTypeCharacteristics.cost;
                 }
