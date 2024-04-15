@@ -6,6 +6,7 @@ import { GameUITopBar } from "./ui/GameUITopBar";
 import { GameUIBuildingMenu } from "./ui/GameUIBuildingMenu";
 import { GameUIShrineButton } from "./ui/GameUIShrineButton";
 import { GameUISummoningMenu } from "./ui/GameUISummoningMenu";
+import { GameUIBackground } from "./ui/GameUIBackground";
 
 export function GameUI(
     props: {
@@ -25,9 +26,16 @@ export function GameUI(
     };
 
     return <div className="game-ui">
-        <GameUITopBar gameLogic={props.gameLogic} onBuildingMenu={onToggleBuildingMenu} onSummonMenu={onToggleSummonMenu} />
-        <GameUIShrineButton gameLogic={props.gameLogic} />
-        <GameUIBuildingMenu gameLogic={props.gameLogic} opened={buildingMenuOpened} />
-        <GameUISummoningMenu gameLogic={props.gameLogic} opened={summonMenuOpened} />
+        <div className="game-ui-layer one">
+            <GameUIBackground />
+        </div>
+        <div className="game-ui-layer two">
+            <div className="game-ui-container">
+                <GameUITopBar gameLogic={props.gameLogic} onBuildingMenu={onToggleBuildingMenu} onSummonMenu={onToggleSummonMenu} />
+                <GameUIShrineButton gameLogic={props.gameLogic} />
+                <GameUIBuildingMenu gameLogic={props.gameLogic} opened={buildingMenuOpened} />
+                <GameUISummoningMenu gameLogic={props.gameLogic} opened={summonMenuOpened} />
+            </div>
+        </div>
     </div>
 }

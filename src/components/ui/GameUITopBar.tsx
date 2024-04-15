@@ -76,10 +76,10 @@ export function GameUITopBar(
 
     return <div className="game-ui-top-bar">
         <div className="game-ui-player-money">
-            <i>Money: </i><b>{playerMoney}</b>
+            <i>Money: </i>{playerMoney}
         </div>
         <div className="game-ui-wave-status">
-            <b>{
+            <>{
                 waveActive ?
                     (<>Wave {waveNumber} | Active</>)
                     :
@@ -89,7 +89,7 @@ export function GameUITopBar(
                             :
                             (<>Wave {waveNumber} | Starting in {Math.ceil(waveCooldown - waveTimer)}s</>)
                     )
-            }</b>
+            }</>
         </div>
         <div className="game-ui-top-bar-buttons">
             <></>
