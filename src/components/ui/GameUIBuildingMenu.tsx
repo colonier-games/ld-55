@@ -33,10 +33,10 @@ export function GameUIBuildingMenu(
         console.log('[GameUIBuildingMenu]', 'onBuyBuildingOfType', buildingType);
     };
 
-    const onSummonHound = () => {
+    const onSummonPeasant = () => {
         props.gameLogic.trigger(
             'player.summon',
-            { unitType: 'units.hound' }
+            { unitType: 'units.peasant' }
         );
     };
 
@@ -67,11 +67,11 @@ export function GameUIBuildingMenu(
             action="Summon"
             description={
                 <div>
-                    <p>C: <span className="white">{UNIT_TYPE_CHARACTERISTICS['units.hound'].cost}</span> | AP: <span className="white">{UNIT_HOUND_BASE_DP}</span> | HP: <span className="white">{UNIT_HOUND_BASE_HP}</span></p>
+                    <p>C: <span className="white">{UNIT_TYPE_CHARACTERISTICS['units.peasant'].cost}</span> | AP: <span className="white">{UNIT_HOUND_BASE_DP}</span> | HP: <span className="white">{UNIT_HOUND_BASE_HP}</span></p>
                 </div>
             }
             title="Peasant"
-            onAction={onSummonHound}
+            onAction={onSummonPeasant}
             key="summon-hound"
         />
     ];

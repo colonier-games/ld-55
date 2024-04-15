@@ -1,7 +1,7 @@
 import { IEntity, newEntityId } from "./IEntity";
 
 export const WAVE_PER_LEVEL = 15;
-export const WAVE_COOLDOWN = 2;
+export const WAVE_COOLDOWN = 10;
 
 export interface IWave extends IEntity {
     waveNumber: number;

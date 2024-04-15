@@ -1,10 +1,32 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { createHoundUnit } from "../entity/IHoundUnit";
+import { createSkeletonUnit } from "../entity/ISkeletonUnit";
 import { IUnit, UNIT_OWNER_AI } from "../entity/IUnit";
 import { IWave } from "../entity/IWave";
 import { WORLD_SIZE } from "../utils/game-coordinates";
 import { IGameSystem } from "./IGameSystem";
+
+const WAVE_UNIT_TYPES = [
+    {
+        unitType: "units.hound",
+        count: (waveNumber: number) => 10 + waveNumber * 2,
+        create: (position: { x: number, y: number }) => createHoundUnit({
+            position,
+            level: 0,
+            owner: UNIT_OWNER_AI
+        })
+    },
+    {
+        unitType: "units.skeleton",
+        count: (waveNumber: number) => waveNumber <= 3 ? 0 : 5 + 2 * waveNumber,
+        create: (position: { x: number, y: number }) => createSkeletonUnit({
+            position,
+            level: 0,
+            owner: UNIT_OWNER_AI
+        })
+    }
+];
 
 export class WaveSpawningSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
@@ -61,17 +83,17 @@ export class WaveSpawningSystem implements IGameSystem {
     ): Array<IUnit> {
         const result: Array<IUnit> = [];
 
-        const unitCount = 5 + wave.waveNumber * 2;
+        for (let spawnUnitType of WAVE_UNIT_TYPES) {
 
-        for (let i = 0; i < unitCount; i++) {
-            const position = this.spawnLocationOf(i, unitCount);
-            const unit = createHoundUnit({
-                position,
-                level: 0,
-                owner: UNIT_OWNER_AI
-            });
-            gameLogic.spawnEntity('units.hound', unit);
-            result.push(unit);
+            const unitCount = spawnUnitType.count(wave.waveNumber);
+
+            for (let i = 0; i < unitCount; i++) {
+                const position = this.spawnLocationOf(i, unitCount);
+                const unit = spawnUnitType.create(position);
+                gameLogic.spawnEntity(spawnUnitType.unitType, unit);
+                result.push(unit);
+            }
+
         }
 
         return result;

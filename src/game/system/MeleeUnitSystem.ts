@@ -1,28 +1,36 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
-import { IHoundUnit, UNIT_HOUND_ATTACK_ANIMATION_START, UNIT_HOUND_ATTACK_RANGE } from "../entity/IHoundUnit";
-import { IUnit, UNIT_ENTITY_TYPES, UNIT_OWNER_AI } from "../entity/IUnit";
+import { IMeleeUnit } from "../entity/IMeleeUnit";
+import { IUnit, UNIT_ENTITY_TYPES, UNIT_OWNER_AI, UnitType } from "../entity/IUnit";
 import { IWave } from "../entity/IWave";
 import { expImpulse } from "../utils/game-animation";
 import { WORLD_SIZE, WORLD_UNIT_BOX_SIZE, worldToCanvas } from "../utils/game-coordinates";
 import { lerpIn } from "../utils/lerp";
 import { IGameSystem } from "./IGameSystem";
 
-const HOUND_UNIT_SIZE = 40;
+const MELEE_UNIT_SIZE = 40;
 
-/** Responsible for the targeting, movement and attacking of hound-type meelee units. */
-export class HoundUnitSystem implements IGameSystem {
+export const MELEE_UNIT_TYPES: Array<UnitType> = [
+    "units.hound",
+    "units.peasant",
+    "units.skeleton"
+]
 
-    private _playerUnitImage: HTMLImageElement | null = null;
-    private _aiUnitImage: HTMLImageElement | null = null;
+/** Responsible for the targeting, movement and attacking of meleeUnit-type meelee units. */
+export class MeleeUnitSystem implements IGameSystem {
+
+    private _meleeUnitImages: Record<UnitType, HTMLImageElement> = {};
 
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
-        this._playerUnitImage = gameAssets.getGraphics('units.hound.green');
-        this._aiUnitImage = gameAssets.getGraphics('units.hound.red');
+        MELEE_UNIT_TYPES.forEach(
+            unitType => {
+                this._meleeUnitImages[unitType] = gameAssets.getGraphics(unitType);
+            }
+        );
     }
 
-    private findHoundTarget(
-        unit: IHoundUnit,
+    private findMeleeUnitTarget(
+        unit: IMeleeUnit,
         allUnits: Array<IUnit>
     ): void {
 
@@ -50,8 +58,8 @@ export class HoundUnitSystem implements IGameSystem {
 
     }
 
-    private moveHoundTowardsTarget(
-        unit: IHoundUnit,
+    private moveMeleeUnitTowardsTarget(
+        unit: IMeleeUnit,
         dt: number
     ): void {
         // Accelerate towards target
@@ -89,9 +97,9 @@ export class HoundUnitSystem implements IGameSystem {
 
         }
 
-        if (unit.attackTimer - UNIT_HOUND_ATTACK_ANIMATION_START > 0) {
+        if (unit.attackTimer - unit.attackAnimationStartTime > 0) {
             const attackAnimationAlpha = Math.sin(
-                Math.PI * ((unit.attackTimer - UNIT_HOUND_ATTACK_ANIMATION_START) / (unit.attackCooldown - UNIT_HOUND_ATTACK_ANIMATION_START))
+                Math.PI * ((unit.attackTimer - unit.attackAnimationStartTime) / (unit.attackCooldown - unit.attackAnimationStartTime))
             );
             unit.kinematic = true;
             lerpIn(
@@ -108,8 +116,8 @@ export class HoundUnitSystem implements IGameSystem {
 
     }
 
-    private attackHoundTarget(
-        unit: IHoundUnit,
+    private attackMeleeUnitTarget(
+        unit: IMeleeUnit,
         dt: number,
         gameLogic: IGameLogic
     ) {
@@ -123,7 +131,7 @@ export class HoundUnitSystem implements IGameSystem {
             unitToTarget.y * unitToTarget.y
         );
 
-        if (unitToTargetLength < UNIT_HOUND_ATTACK_RANGE) {
+        if (unitToTargetLength < unit.attackRange) {
             unit.attackTimer += dt;
             if (unit.attackTimer >= unit.attackCooldown) {
                 unit.attackTimer = 0;
@@ -143,8 +151,8 @@ export class HoundUnitSystem implements IGameSystem {
 
     }
 
-    private moveHoundWithWandering(
-        unit: IHoundUnit,
+    private moveMeleeUnitWithWandering(
+        unit: IMeleeUnit,
         dt: number,
         wave: IWave
     ): void {
@@ -192,7 +200,7 @@ export class HoundUnitSystem implements IGameSystem {
 
     }
 
-    private clampHoundVelocity(unit: IHoundUnit): void {
+    private clampMeleeUnitVelocity(unit: IMeleeUnit): void {
         const velocityLength = Math.sqrt(
             unit.velocity.x * unit.velocity.x +
             unit.velocity.y * unit.velocity.y
@@ -208,11 +216,11 @@ export class HoundUnitSystem implements IGameSystem {
 
     tick(dt: number, gameLogic: IGameLogic): void {
 
-        const houndUnits = gameLogic.getEntities<IHoundUnit>('units.hound');
+        const meleeUnits = gameLogic.getEntities<IMeleeUnit>(MELEE_UNIT_TYPES);
         const wave = gameLogic.getEntities<IWave>('wave')[0];
         const allUnits = gameLogic.getEntities<IUnit>(UNIT_ENTITY_TYPES);
 
-        houndUnits.forEach(unit => {
+        meleeUnits.forEach(unit => {
 
             if (unit.dead) {
                 return;
@@ -223,17 +231,18 @@ export class HoundUnitSystem implements IGameSystem {
             }
 
             if (!unit.target || unit.target === null) {
-                this.findHoundTarget(unit, allUnits);
+                unit.attackTimer = 0;
+                this.findMeleeUnitTarget(unit, allUnits);
             }
 
             if (unit.target) {
-                this.moveHoundTowardsTarget(unit, dt);
-                this.attackHoundTarget(unit, dt, gameLogic);
+                this.moveMeleeUnitTowardsTarget(unit, dt);
+                this.attackMeleeUnitTarget(unit, dt, gameLogic);
             } else {
-                this.moveHoundWithWandering(unit, dt, wave);
+                this.moveMeleeUnitWithWandering(unit, dt, wave);
             }
 
-            this.clampHoundVelocity(unit);
+            this.clampMeleeUnitVelocity(unit);
 
         });
 
@@ -241,28 +250,33 @@ export class HoundUnitSystem implements IGameSystem {
 
     render(dt: number, gameLogic: IGameLogic): void {
 
-        const houndUnits = gameLogic.getEntities<IHoundUnit>('units.hound');
         const g = gameLogic.context;
 
-        houndUnits.forEach(unit => {
+        MELEE_UNIT_TYPES.forEach(
+            unitType => {
+                const meleeUnits = gameLogic.getEntities<IMeleeUnit>(unitType);
 
-            if (unit.dead) {
-                return;
+                meleeUnits.forEach(unit => {
+
+                    if (unit.dead) {
+                        return;
+                    }
+
+                    const canvasPos = worldToCanvas(
+                        unit.position,
+                        gameLogic.canvasSize
+                    );
+
+                    g.drawImage(
+                        this._meleeUnitImages[unitType],
+                        canvasPos.x - MELEE_UNIT_SIZE / 2,
+                        canvasPos.y - MELEE_UNIT_SIZE / 2,
+                        MELEE_UNIT_SIZE,
+                        MELEE_UNIT_SIZE
+                    );
+                });
             }
-
-            const canvasPos = worldToCanvas(
-                unit.position,
-                gameLogic.canvasSize
-            );
-
-            g.drawImage(
-                unit.owner === UNIT_OWNER_AI ? this._aiUnitImage as HTMLImageElement : this._playerUnitImage as HTMLImageElement,
-                canvasPos.x - HOUND_UNIT_SIZE / 2,
-                canvasPos.y - HOUND_UNIT_SIZE / 2,
-                HOUND_UNIT_SIZE,
-                HOUND_UNIT_SIZE
-            );
-        });
+        );
 
     }
 }

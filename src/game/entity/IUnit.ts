@@ -19,7 +19,9 @@ export interface IUnit extends IEntity {
 }
 
 export const UNIT_ENTITY_TYPES = [
-    "units.hound"
+    "units.hound",
+    "units.peasant",
+    "units.skeleton"
 ];
 
 export type UnitType = typeof UNIT_ENTITY_TYPES[number];
@@ -29,7 +31,7 @@ export interface UnitTypeCharacteristics {
 }
 
 export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics> = {
-    "units.hound": {
+    "units.peasant": {
         cost: 10
     }
 };

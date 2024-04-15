@@ -1,6 +1,7 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { createHoundUnit } from "../entity/IHoundUnit";
+import { createPeasantUnit } from "../entity/IPeasantUnit";
 import { IPlayer } from "../entity/IPlayer";
 import { IUnit, UNIT_OWNER_PLAYER, UNIT_TYPE_CHARACTERISTICS, UnitType } from "../entity/IUnit";
 import { WORLD_SIZE } from "../utils/game-coordinates";
@@ -13,8 +14,8 @@ export interface IPlayerUnitSummonProps {
 export class PlayerUnitSummoningSystem implements IGameSystem {
 
     private createUnit(props: IPlayerUnitSummonProps): IUnit {
-        if (props.unitType === 'units.hound') {
-            return createHoundUnit({
+        if (props.unitType === 'units.peasant') {
+            return createPeasantUnit({
                 position: {
                     x: WORLD_SIZE / 2,
                     y: WORLD_SIZE / 2

@@ -1,6 +1,8 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { IHoundUnit, createHoundUnit } from "../entity/IHoundUnit";
+import { createPeasantUnit } from "../entity/IPeasantUnit";
+import { IPlayer } from "../entity/IPlayer";
 import { UNIT_OWNER_AI, UNIT_OWNER_PLAYER } from "../entity/IUnit";
 import { IGameSystem } from "./IGameSystem";
 
@@ -8,8 +10,8 @@ import { IGameSystem } from "./IGameSystem";
 export class UnitTestingSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 
-        for (let i = 0; i < 200; i++) {
-            gameLogic.spawnEntity<IHoundUnit>('units.hound', createHoundUnit({
+        for (let i = 0; i < 1; i++) {
+            gameLogic.spawnEntity<IHoundUnit>('units.peasant', createPeasantUnit({
                 position: {
                     x: 1000 * Math.random(),
                     y: 1000 * Math.random()
@@ -18,6 +20,9 @@ export class UnitTestingSystem implements IGameSystem {
                 level: 0
             }));
         }
+
+        const playerEntity = gameLogic.getEntities('player')[0] as IPlayer;
+        playerEntity.money += 1000;
 
     }
 

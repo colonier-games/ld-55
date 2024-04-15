@@ -4,7 +4,7 @@ import { IEntity } from "./entity/IEntity";
 import { GAME_SYSTEM_CTORS } from "./game-init";
 import { IGameLevel } from "./level/IGameLevel";
 import { FIRST_GAME_LEVEL } from "./level/game-levels";
-import { HoundUnitSystem } from "./system/HoundUnitSystem";
+import { HoundUnitSystem } from "./system/MeleeUnitSystem";
 import { IGameSystem } from "./system/IGameSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
 import { PlayerBuildingBuySystem } from "./system/PlayerBuildingBuySystem";
@@ -146,7 +146,7 @@ export class GameLogicImpl implements IGameLogic {
     getEntities<T extends IEntity>(entityType: string | Array<string>): Array<T> {
         if (Array.isArray(entityType)) {
             return entityType.reduce((acc, type) => {
-                return acc.concat(this._entities[type] as Array<T>);
+                return acc.concat((this._entities[type] || []) as Array<T>);
             }, []);
         }
         return this._entities[entityType] as Array<T> || [];

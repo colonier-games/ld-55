@@ -1,4 +1,4 @@
-import { HoundUnitSystem } from "./system/HoundUnitSystem";
+import { MeleeUnitSystem } from "./system/MeleeUnitSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
 import { LevelFinishingSystem } from "./system/LevelFinishingSystem";
 import { PlayerBuildingBuySystem } from "./system/PlayerBuildingBuySystem";
@@ -23,7 +23,7 @@ export const GAME_SYSTEM_CTORS = [
     PlayerInitSystem,
     WaveInitSystem,
     LevelBackgroundSystem,
-    HoundUnitSystem,
+    MeleeUnitSystem,
     UnitMovementSystem,
     UnitArenaBoundsSystem,
     UnitKillingSystem,
@@ -49,13 +49,12 @@ export const GAME_GRAPHICS = {
     "levels.lava": "assets/levels/lava.png",
     "levels.lake": "assets/levels/lake.png",
     "levels.throneroom": "assets/levels/throneroom.png",
-    "units.hound.green": "assets/units/peasant.png",
-    "units.hound.red": "assets/units/skull.png",
+    "units.hound": "assets/units/hound.png",
     "units.holy-knight": "assets/units/holy-knight.png",
     "units.devil": "assets/units/devil.png",
     "units.cerberus": "assets/units/cerberus.png",
     "units.peasant": "assets/units/peasant.png",
     "units.knight": "assets/units/knight.png",
-    "units.skull": "assets/units/skull.png",
+    "units.skeleton": "assets/units/skull.png",
     "units.vampire": "assets/units/vampire.png"
 };
