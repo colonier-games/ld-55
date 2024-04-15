@@ -63,7 +63,7 @@ export function GameUICard(
                 <div className={"game-ui-card-action-holdable " + (isHeld ? 'held' : '')}>
                     <div className="game-ui-card-action-background"></div>
                     <div className="game-ui-card-action-progress" style={{ animation: isHeld ? `${(props.holdDuration || 1 - 0.1)}s linear infinite activate` : undefined }}></div>
-                    <div className="game-ui-card-action-text" onMouseDown={onStartHold} onMouseUp={onEndHold}>{props.action}</div>
+                    <div className="game-ui-card-action-text" onTouchStart={onStartHold} onTouchEnd={onEndHold} onTouchCancel={onEndHold} onMouseDown={onStartHold} onMouseUp={onEndHold}>{props.action}</div>
                 </div>
             </>)}
         </div>

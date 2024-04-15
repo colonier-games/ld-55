@@ -16,6 +16,7 @@ export interface IGameLogic {
         entityType: string,
         entityData: T
     ): void;
+    changeLevel(newLevel: IGameLevel): void;
 
     getAllEntities(): Array<IEntity>;
     getEntities<T extends IEntity>(entityType: string | Array<string>): Array<T>;

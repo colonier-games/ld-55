@@ -2,6 +2,7 @@ import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { IUnit, UNIT_ENTITY_TYPES } from "../entity/IUnit";
 import { IWave } from "../entity/IWave";
+import { ALL_GAME_LEVELS } from "../level/game-levels";
 import { IGameSystem } from "./IGameSystem";
 
 export class LevelFinishingSystem implements IGameSystem {
@@ -11,15 +12,20 @@ export class LevelFinishingSystem implements IGameSystem {
     ): void {
         gameLogic.getEntities(UNIT_ENTITY_TYPES).forEach(
             (unit: IUnit) => {
-                unit.dead = true;
+                // unit.dead = true;
             }
         );
         gameLogic.getEntities('wave').forEach(
             (wave: IWave) => {
                 wave.active = false;
                 wave.spawned = false;
-                wave.waveNumber = 0;
+                wave.waveNumber = 1;
                 wave.waveTimer = 0;
+                wave.levelNumber += 1;
+
+                gameLogic.changeLevel(
+                    ALL_GAME_LEVELS[Math.min(ALL_GAME_LEVELS.length - 1, wave.levelNumber - 1)]
+                );
             }
         );
     }
@@ -29,7 +35,7 @@ export class LevelFinishingSystem implements IGameSystem {
             'wave.won',
             (waveNumber: number) => {
                 const waveEntity = gameLogic.getEntities('wave')[0] as IWave;
-                if (waveNumber >= waveEntity.totalWaves) {
+                if (waveNumber - 1 >= waveEntity.totalWaves) {
                     gameLogic.trigger('level.won', {});
                     this.resetLevel(gameLogic);
                 }

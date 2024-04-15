@@ -11,18 +11,18 @@ const WAVE_UNIT_TYPES = [
     {
         unitType: "units.hound",
         count: (waveNumber: number) => 10 + waveNumber * 2,
-        create: (position: { x: number, y: number }) => createHoundUnit({
+        create: (position: { x: number, y: number }, level?: number) => createHoundUnit({
             position,
-            level: 0,
+            level: level || 0,
             owner: UNIT_OWNER_AI
         })
     },
     {
         unitType: "units.skeleton",
         count: (waveNumber: number) => waveNumber <= 3 ? 0 : 5 + 2 * waveNumber,
-        create: (position: { x: number, y: number }) => createSkeletonUnit({
+        create: (position: { x: number, y: number }, level?: number) => createSkeletonUnit({
             position,
-            level: 0,
+            level: level || 0,
             owner: UNIT_OWNER_AI
         })
     }
@@ -83,13 +83,15 @@ export class WaveSpawningSystem implements IGameSystem {
     ): Array<IUnit> {
         const result: Array<IUnit> = [];
 
+        const actualWaveNumber = (wave.levelNumber - 1) * wave.totalWaves + wave.waveNumber;
+
         for (let spawnUnitType of WAVE_UNIT_TYPES) {
 
-            const unitCount = spawnUnitType.count(wave.waveNumber);
+            const unitCount = spawnUnitType.count(actualWaveNumber);
 
             for (let i = 0; i < unitCount; i++) {
                 const position = this.spawnLocationOf(i, unitCount);
-                const unit = spawnUnitType.create(position);
+                const unit = spawnUnitType.create(position, wave.levelNumber - 1);
                 gameLogic.spawnEntity(spawnUnitType.unitType, unit);
                 result.push(unit);
             }

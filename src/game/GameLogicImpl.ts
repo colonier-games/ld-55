@@ -137,6 +137,10 @@ export class GameLogicImpl implements IGameLogic {
         this._entities[entityType].push(entityData);
     }
 
+    changeLevel(newLevel: IGameLevel): void {
+        this._gameLevel = newLevel;
+    }
+
     getAllEntities(): Array<IEntity> {
         return Object.keys(this._entities).reduce((acc, entityType) => {
             return acc.concat(this._entities[entityType]);
