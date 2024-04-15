@@ -60,6 +60,16 @@ export function GameUITopBar(
                     setWaveLost(true);
                 }
             );
+            props.gameLogic.addEventListener(
+                'level.won',
+                () => {
+                    setWaveActive(false);
+                    setWaveLost(false);
+                    setWaveNumber(1);
+                    setWaveTimer(0);
+                }
+            );
+
         },
         []
     );

@@ -5,6 +5,7 @@ import { GameUIBottomBar } from "./ui/GameUIBottomBar";
 import { GameUITopBar } from "./ui/GameUITopBar";
 import { GameUIBuildingMenu } from "./ui/GameUIBuildingMenu";
 import { GameUIShrineButton } from "./ui/GameUIShrineButton";
+import { GameUISummoningMenu } from "./ui/GameUISummoningMenu";
 
 export function GameUI(
     props: {
@@ -26,6 +27,7 @@ export function GameUI(
     return <div className="game-ui">
         <GameUITopBar gameLogic={props.gameLogic} onBuildingMenu={onToggleBuildingMenu} onSummonMenu={onToggleSummonMenu} />
         <GameUIBuildingMenu gameLogic={props.gameLogic} opened={buildingMenuOpened} />
+        <GameUISummoningMenu gameLogic={props.gameLogic} opened={summonMenuOpened} />
         <GameUIShrineButton gameLogic={props.gameLogic} />
     </div>
 }

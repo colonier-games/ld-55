@@ -7,6 +7,7 @@ import { PlayerBuildingsSystem } from "./system/PlayerBuildingsSystem";
 import { PlayerInitSystem } from "./system/PlayerInitSystem";
 import { PlayerMoneyEarningSystem } from "./system/PlayerMoneyEarningSystem";
 import { PlayerMoneyNotificationSystem } from "./system/PlayerMoneyNotificationSystem";
+import { PlayerUnitSummoningSystem } from "./system/PlayerUnitSummoningSystem";
 import { UnitArenaBoundsSystem } from "./system/UnitArenaBoundsSystem";
 import { UnitHealthBarSystem } from "./system/UnitHealthBarSystem";
 import { UnitKillingSystem } from "./system/UnitKillingSystem";
@@ -31,6 +32,7 @@ export const GAME_SYSTEM_CTORS = [
     PlayerMoneyEarningSystem,
     PlayerMoneyNotificationSystem,
     PlayerBuildingBuySystem,
+    PlayerUnitSummoningSystem,
     PlayerBuildingsNotificationSystem,
     UnitHealthBarSystem,
     WaveTimerSystem,
@@ -41,7 +43,7 @@ export const GAME_SYSTEM_CTORS = [
 ];
 
 export const GAME_GRAPHICS = {
-    "levels.nether-woods": "assets/levels/nether-woods.png",
+    "levels.nether-woods": "assets/levels/nether-woods.x4.png",
     "levels.ruins": "assets/levels/ruins.png",
     "levels.dungeon": "assets/levels/dungeon.png",
     "levels.lava": "assets/levels/lava.png",
