@@ -22,16 +22,21 @@ import { PlayerUnitsNotificationSystem } from "./system/PlayerUnitsNotificationS
 import { PlayerUnitUpgradeSystem } from "./system/PlayerUnitUpgradeSystem";
 import { PlayerUnitUpgradeNotificationSystem } from "./system/PlayerUnitUpgradeNotificationSystem";
 import { PlayerHealingSystem } from "./system/PlayerHealingSystem";
+import { UnitRenderingSystem } from "./system/UnitRenderingSystem";
+import { AOEUnitSystem } from "./system/AOEUnitSystem";
+import { AOESplashSystem } from "./system/AOESplashSystem";
 
 export const GAME_SYSTEM_CTORS = [
     PlayerInitSystem,
     WaveInitSystem,
     LevelBackgroundSystem,
     MeleeUnitSystem,
+    AOEUnitSystem,
     UnitMovementSystem,
     UnitArenaBoundsSystem,
     UnitKillingSystem,
     UnitTestingSystem,
+    UnitRenderingSystem,
     PlayerBuildingsSystem,
     PlayerMoneyEarningSystem,
     PlayerMoneyNotificationSystem,
@@ -39,6 +44,7 @@ export const GAME_SYSTEM_CTORS = [
     PlayerUnitSummoningSystem,
     PlayerBuildingsNotificationSystem,
     UnitHealthBarSystem,
+    AOESplashSystem,
     WaveTimerSystem,
     WaveActivationSystem,
     WaveSpawningSystem,
@@ -47,7 +53,7 @@ export const GAME_SYSTEM_CTORS = [
     PlayerUnitsNotificationSystem,
     PlayerUnitUpgradeSystem,
     PlayerUnitUpgradeNotificationSystem,
-    PlayerHealingSystem
+    PlayerHealingSystem,
 ];
 
 export const GAME_GRAPHICS = {

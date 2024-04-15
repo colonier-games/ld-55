@@ -12,7 +12,7 @@ import { IGameSystem } from "./IGameSystem";
 export class UnitTestingSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 5; i++) {
             gameLogic.spawnEntity<IHoundUnit>('units.peasant', createPeasantUnit({
                 position: {
                     x: 1000 * Math.random(),
@@ -23,7 +23,7 @@ export class UnitTestingSystem implements IGameSystem {
             }));
         }
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 4; i++) {
             gameLogic.spawnEntity<IKnightUnit>('units.knight', createKnightUnit({
                 position: {
                     x: 1000 * Math.random(),
@@ -34,7 +34,7 @@ export class UnitTestingSystem implements IGameSystem {
             }));
         }
 
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 3; i++) {
             gameLogic.spawnEntity<IHoundUnit>('units.holy-knight', createHolyKnightUnit({
                 position: {
                     x: 1000 * Math.random(),

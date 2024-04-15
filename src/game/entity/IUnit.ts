@@ -45,32 +45,32 @@ export interface UnitTypeCharacteristics {
 export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics> = {
     "units.peasant": {
         cost: 10,
-        inflation: 10,
+        inflation: 5,
         imageUrl: 'assets/units/peasant.png',
         displayName: 'Peasant',
         hp: UNIT_PEASANT_BASE_HP,
         ap: UNIT_PEASANT_BASE_AP,
         upgradeCosts: [100, 500, 2000, 10000, 50000],
-        upgradeUnitCountLevels: [30, 100, 150, 250, 500]
+        upgradeUnitCountLevels: [10, 25, 50, 100, 150]
     },
     "units.knight": {
-        cost: 100,
-        inflation: 50,
+        cost: 80,
+        inflation: 40,
         imageUrl: 'assets/units/knight.png',
         displayName: 'Knight',
         hp: UNIT_KNIGHT_BASE_HP,
         ap: UNIT_KNIGHT_BASE_AP,
         upgradeCosts: [2500, 10000, 50000, 100000, 500000],
-        upgradeUnitCountLevels: [10, 30, 50, 100, 200]
+        upgradeUnitCountLevels: [5, 10, 15, 50, 100]
     },
     "units.holy-knight": {
-        cost: 1000,
-        inflation: 750,
+        cost: 750,
+        inflation: 350,
         imageUrl: 'assets/units/holy-knight.png',
         displayName: 'Holy Knight',
         hp: UNIT_HOLY_KNIGHT_BASE_HP,
         ap: UNIT_HOLY_KNIGHT_BASE_AP,
         upgradeCosts: [5000, 25000, 100000, 500000, 1000000],
-        upgradeUnitCountLevels: [5, 10, 20, 50, 100]
+        upgradeUnitCountLevels: [4, 8, 12, 25, 75]
     },
 };

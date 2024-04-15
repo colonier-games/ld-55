@@ -14,21 +14,13 @@ export const MELEE_UNIT_TYPES: Array<UnitType> = [
     "units.hound",
     "units.peasant",
     "units.skeleton",
-    "units.holy-knight",
     "units.knight"
 ]
 
 /** Responsible for the targeting, movement and attacking of meleeUnit-type meelee units. */
 export class MeleeUnitSystem implements IGameSystem {
 
-    private _meleeUnitImages: Record<UnitType, HTMLImageElement> = {};
-
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
-        MELEE_UNIT_TYPES.forEach(
-            unitType => {
-                this._meleeUnitImages[unitType] = gameAssets.getGraphics(unitType);
-            }
-        );
     }
 
     private findMeleeUnitTarget(
@@ -251,34 +243,6 @@ export class MeleeUnitSystem implements IGameSystem {
     }
 
     render(dt: number, gameLogic: IGameLogic): void {
-
-        const g = gameLogic.context;
-
-        MELEE_UNIT_TYPES.forEach(
-            unitType => {
-                const meleeUnits = gameLogic.getEntities<IMeleeUnit>(unitType);
-
-                meleeUnits.forEach(unit => {
-
-                    if (unit.dead) {
-                        return;
-                    }
-
-                    const canvasPos = worldToCanvas(
-                        unit.position,
-                        gameLogic.canvasSize
-                    );
-
-                    g.drawImage(
-                        this._meleeUnitImages[unitType],
-                        canvasPos.x - MELEE_UNIT_SIZE / 2,
-                        canvasPos.y - MELEE_UNIT_SIZE / 2,
-                        MELEE_UNIT_SIZE,
-                        MELEE_UNIT_SIZE
-                    );
-                });
-            }
-        );
 
     }
 }

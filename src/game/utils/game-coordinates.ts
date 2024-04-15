@@ -22,3 +22,8 @@ export function worldToCanvas(
         y: topLeft.y + wpNorm.y * Rh
     };
 }
+
+export function worldSizeToCanvas(worldSize: number, canvasSize: { width: number, height: number }): number {
+    const Rw = Math.min(canvasSize.width, canvasSize.height);
+    return worldSize / WORLD_SIZE * Rw;
+}

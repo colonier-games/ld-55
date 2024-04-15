@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IGameLogic } from "../../game/IGameLogic";
-import { PLAYER_HOLD_BASE_TIME, PlayerBuildingInfo } from "../../game/entity/IPlayer";
+import { PLAYER_HOLD_BASE_TIME, PLAYER_HOLD_TIME_REDUCTION_PER_LEVEL, PlayerBuildingInfo } from "../../game/entity/IPlayer";
 import { GameUICard } from "./GameUICard";
 import { GameUIShrineButton } from "./GameUIShrineButton";
 import { IUnit, UNIT_TYPE_CHARACTERISTICS, UnitType } from "../../game/entity/IUnit";
@@ -64,6 +64,13 @@ export function GameUIBuildingMenu(
                     setTotalSummonedUnits(stats.total);
                     setTotalSummonedUnitsPerType(stats.perUnitType);
                     setPlayerUnitCosts(stats.unitCosts);
+                }
+            );
+            props.gameLogic.addEventListener(
+                'player.hold.upgraded',
+                (holdLevel: number) => {
+                    setPlayerHoldTime(PLAYER_HOLD_BASE_TIME - PLAYER_HOLD_TIME_REDUCTION_PER_LEVEL * holdLevel);
+
                 }
             );
         },
