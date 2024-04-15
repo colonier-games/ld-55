@@ -39,9 +39,8 @@ export class AOESplashSystem implements IGameSystem {
                 splash.position,
                 gameLogic.canvasSize
             );
-            console.log(splash);
-            g.strokeStyle = "#ff0000";
-            g.lineWidth = 2;
+            g.strokeStyle = splash.color || 'red';
+            g.lineWidth = 2 * (1.0 - (splash.radius / splash.maxRadius));
             g.beginPath();
             g.arc(
                 pos.x,

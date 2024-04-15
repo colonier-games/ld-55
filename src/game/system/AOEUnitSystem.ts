@@ -7,7 +7,8 @@ import { WORLD_SIZE, WORLD_UNIT_BOX_SIZE } from "../utils/game-coordinates";
 import { IGameSystem } from "./IGameSystem";
 
 export const AOE_UNIT_TYPES = [
-    "units.holy-knight"
+    "units.holy-knight",
+    "units.cerberus"
 ];
 
 export class AOEUnitSystem implements IGameSystem {

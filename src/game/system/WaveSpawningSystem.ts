@@ -1,5 +1,6 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
+import { createCerberusUnit } from "../entity/ICerberusUnit";
 import { createHoundUnit } from "../entity/IHoundUnit";
 import { createSkeletonUnit } from "../entity/ISkeletonUnit";
 import { IUnit, UNIT_OWNER_AI } from "../entity/IUnit";
@@ -19,8 +20,17 @@ const WAVE_UNIT_TYPES = [
     },
     {
         unitType: "units.skeleton",
-        count: (waveNumber: number) => waveNumber <= 3 ? 0 : 5 + 2 * waveNumber,
+        count: (waveNumber: number) => waveNumber <= 3 ? 0 : (5 + 2 * waveNumber),
         create: (position: { x: number, y: number }, level?: number) => createSkeletonUnit({
+            position,
+            level: level || 0,
+            owner: UNIT_OWNER_AI
+        })
+    },
+    {
+        unitType: "units.cerberus",
+        count: (waveNumber: number) => waveNumber <= 5 ? 0 : (2 + waveNumber),
+        create: (position: { x: number, y: number }, level?: number) => createCerberusUnit({
             position,
             level: level || 0,
             owner: UNIT_OWNER_AI

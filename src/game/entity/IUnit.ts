@@ -26,7 +26,8 @@ export const UNIT_ENTITY_TYPES = [
     "units.holy-knight",
     "units.hound",
     "units.skeleton",
-    "units.knight"
+    "units.knight",
+    "units.cerberus"
 ];
 
 export type UnitType = typeof UNIT_ENTITY_TYPES[number];
@@ -45,7 +46,7 @@ export interface UnitTypeCharacteristics {
 export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics> = {
     "units.peasant": {
         cost: 10,
-        inflation: 5,
+        inflation: 2,
         imageUrl: 'assets/units/peasant.png',
         displayName: 'Peasant',
         hp: UNIT_PEASANT_BASE_HP,
@@ -55,7 +56,7 @@ export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics
     },
     "units.knight": {
         cost: 80,
-        inflation: 40,
+        inflation: 10,
         imageUrl: 'assets/units/knight.png',
         displayName: 'Knight',
         hp: UNIT_KNIGHT_BASE_HP,
@@ -65,7 +66,7 @@ export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics
     },
     "units.holy-knight": {
         cost: 750,
-        inflation: 350,
+        inflation: 25,
         imageUrl: 'assets/units/holy-knight.png',
         displayName: 'Holy Knight',
         hp: UNIT_HOLY_KNIGHT_BASE_HP,

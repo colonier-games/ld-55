@@ -16,8 +16,8 @@ export const UNIT_SKELETON_ATTACK_COOLDOWN = 1.5;
 export const UNIT_SKELETON_ATTACK_COOLDOWN_PER_LEVEL = 0.05;
 export const UNIT_SKELETON_ATTACK_RANGE = 100;
 export const UNIT_SKELETON_ATTACK_ANIMATION_START = 0.75;
-export const UNIT_SKELETON_ARRIVE_RANGE = 40;
-export const UNIT_SKELETON_ARRIVE_FACTOR = 0.98;
+export const UNIT_SKELETON_ARRIVE_RANGE = 10;
+export const UNIT_SKELETON_ARRIVE_FACTOR = 0.1;
 
 export interface ISkeletonUnit extends IMeleeUnit { }
 
