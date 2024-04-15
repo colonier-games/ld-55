@@ -33,6 +33,7 @@ export type UnitType = typeof UNIT_ENTITY_TYPES[number];
 
 export interface UnitTypeCharacteristics {
     cost: number;
+    inflation: number;
     imageUrl: string;
     displayName: string;
     hp: number;
@@ -44,6 +45,7 @@ export interface UnitTypeCharacteristics {
 export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics> = {
     "units.peasant": {
         cost: 10,
+        inflation: 10,
         imageUrl: 'assets/units/peasant.png',
         displayName: 'Peasant',
         hp: UNIT_PEASANT_BASE_HP,
@@ -52,7 +54,8 @@ export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics
         upgradeUnitCountLevels: [30, 100, 150, 250, 500]
     },
     "units.knight": {
-        cost: 20,
+        cost: 100,
+        inflation: 50,
         imageUrl: 'assets/units/knight.png',
         displayName: 'Knight',
         hp: UNIT_KNIGHT_BASE_HP,
@@ -61,7 +64,8 @@ export const UNIT_TYPE_CHARACTERISTICS: Record<UnitType, UnitTypeCharacteristics
         upgradeUnitCountLevels: [10, 30, 50, 100, 200]
     },
     "units.holy-knight": {
-        cost: 100,
+        cost: 1000,
+        inflation: 750,
         imageUrl: 'assets/units/holy-knight.png',
         displayName: 'Holy Knight',
         hp: UNIT_HOLY_KNIGHT_BASE_HP,

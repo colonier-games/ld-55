@@ -63,12 +63,20 @@ export class PlayerUnitSummoningSystem implements IGameSystem {
                 const playerEntity = gameLogic.getEntities('player')[0] as IPlayer;
                 const unitTypeCharacteristics = UNIT_TYPE_CHARACTERISTICS[props.unitType];
 
-                if (playerEntity.money >= unitTypeCharacteristics.cost) {
+                if (playerEntity.money >= playerEntity.unitTypeCosts[props.unitType]) {
                     gameLogic.spawnEntity(
                         props.unitType,
                         this.createUnit(props, playerEntity.unitUpgradeLevels[props.unitType] || 0)
                     );
-                    playerEntity.money -= unitTypeCharacteristics.cost;
+                    playerEntity.money -= playerEntity.unitTypeCosts[props.unitType];
+                    playerEntity.unitSummonCount += 1;
+                    playerEntity.summonCountsPerUnitType[props.unitType] = (playerEntity.summonCountsPerUnitType[props.unitType] || 0) + 1;
+                    playerEntity.unitTypeCosts[props.unitType] = unitTypeCharacteristics.cost + playerEntity.summonCountsPerUnitType[props.unitType] * unitTypeCharacteristics.inflation;
+                    gameLogic.trigger('player.summon.stats', {
+                        total: playerEntity.unitSummonCount,
+                        perUnitType: playerEntity.summonCountsPerUnitType,
+                        unitCosts: playerEntity.unitTypeCosts
+                    });
                 }
             }
         );

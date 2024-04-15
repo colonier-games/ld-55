@@ -16,6 +16,17 @@ export function GameUIBuildingMenu(
     const [playerHoldTime, setPlayerHoldTime] = useState<number>(PLAYER_HOLD_BASE_TIME);
     const [playerHealCost, setPlayerHealCost] = useState<number>(0);
     const [playerUnitUpgradeInfos, setPlayerUnitUpgradeInfos] = useState<Record<UnitType, number>>({});
+    const [playerUnitCosts, setPlayerUnitCosts] = useState<Record<UnitType, number>>(
+        Object.keys(UNIT_TYPE_CHARACTERISTICS).reduce(
+            (acc, type) => {
+                acc[type] = UNIT_TYPE_CHARACTERISTICS[type].cost;
+                return acc;
+            },
+            {} as Record<string, number>
+        )
+    );
+    const [totalSummonedUnits, setTotalSummonedUnits] = useState<number>(0);
+    const [totalSummonedUnitsPerType, setTotalSummonedUnitsPerType] = useState<Record<string, number>>({});
 
     useEffect(
         () => {
@@ -41,6 +52,18 @@ export function GameUIBuildingMenu(
                 'player.units.upgrades-changed',
                 (unitUpgradeInfos: Record<UnitType, number>) => {
                     setPlayerUnitUpgradeInfos(unitUpgradeInfos);
+                }
+            );
+            props.gameLogic.addEventListener(
+                'player.summon.stats',
+                (stats: {
+                    total: number,
+                    perUnitType: Record<string, number>,
+                    unitCosts: Record<string, number>
+                }) => {
+                    setTotalSummonedUnits(stats.total);
+                    setTotalSummonedUnitsPerType(stats.perUnitType);
+                    setPlayerUnitCosts(stats.unitCosts);
                 }
             );
         },
@@ -103,7 +126,7 @@ export function GameUIBuildingMenu(
                     action="Summon"
                     description={
                         <div>
-                            <p>C: <span className="white">{unitCharacteristics.cost}</span> | AP: <span className="white">{unitCharacteristics.ap}</span> | HP: <span className="white">{unitCharacteristics.hp}</span></p>
+                            <p>C: <span className="white">{playerUnitCosts[unitType]}</span> | AP: <span className="white">{unitCharacteristics.ap}</span> | HP: <span className="white">{unitCharacteristics.hp}</span></p>
                             <p>You have: <span className="white">{playerUnits[unitType] ? playerUnits[unitType] : 0}</span></p>
                         </div>
                     }

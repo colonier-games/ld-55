@@ -81,6 +81,8 @@ export interface IPlayer extends IEntity {
     healCount: number;
     buildingBuyCount: number;
     unitSummonCount: number;
+    summonCountsPerUnitType: Record<string, number>;
+    unitTypeCosts: Record<string, number>;
 }
 
 export const PLAYER_HOLD_BASE_TIME = 0.5;
@@ -111,6 +113,14 @@ export function createPlayer(): IPlayer {
         }, {} as Record<string, number>),
         healCount: 0,
         buildingBuyCount: 0,
-        unitSummonCount: 0
+        unitSummonCount: 0,
+        summonCountsPerUnitType: Object.keys(UNIT_TYPE_CHARACTERISTICS).reduce((acc, type) => {
+            acc[type] = 0;
+            return acc;
+        }, {} as Record<string, number>),
+        unitTypeCosts: Object.keys(UNIT_TYPE_CHARACTERISTICS).reduce((acc, type) => {
+            acc[type] = UNIT_TYPE_CHARACTERISTICS[type].cost;
+            return acc;
+        }, {} as Record<string, number>)
     };
 }
