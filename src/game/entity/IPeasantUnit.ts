@@ -38,7 +38,7 @@ export function createPeasantUnit(
         maxHp,
         ap: UNIT_PEASANT_BASE_AP + UNIT_PEASANT_AP_PER_LEVEL * props.level,
         sp: UNIT_PEASANT_BASE_SP + UNIT_PEASANT_SP_PER_LEVEL * props.level,
-        dp: props.level,
+        dp: UNIT_PEASANT_BASE_DP + UNIT_PEASANT_DP_PER_LEVEL * props.level,
         velocity: { x: 0, y: 0 },
         baseSpeed: UNIT_PEASANT_BASE_SPEED,
         baseAcceleration: UNIT_PEASANT_BASE_ACCELERATION,
@@ -50,4 +50,17 @@ export function createPeasantUnit(
         attackAnimationStartTime: UNIT_PEASANT_ATTACK_ANIMATION_START,
         attackRange: UNIT_PEASANT_ATTACK_RANGE,
     };
+}
+
+export function upgradePeasantUnit(
+    unit: IPeasantUnit,
+    level: number
+): void {
+    const maxHp = UNIT_PEASANT_BASE_HP + UNIT_PEASANT_HP_PER_LEVEL * level;
+    unit.maxHp = maxHp;
+    unit.hp = maxHp;
+    unit.ap = UNIT_PEASANT_BASE_AP + UNIT_PEASANT_AP_PER_LEVEL * level;
+    unit.sp = UNIT_PEASANT_BASE_SP + UNIT_PEASANT_SP_PER_LEVEL * level;
+    unit.dp = level;
+    unit.attackCooldown = UNIT_PEASANT_ATTACK_COOLDOWN + UNIT_PEASANT_ATTACK_COOLDOWN_PER_LEVEL * level;
 }

@@ -1,4 +1,5 @@
 import { IEntity, newEntityId } from "./IEntity";
+import { UNIT_TYPE_CHARACTERISTICS } from "./IUnit";
 
 export const PLAYER_ENTITY_TYPE = 'player';
 export const PLAYER_BUILDING_TYPES = [
@@ -75,6 +76,11 @@ export interface IPlayer extends IEntity {
     buildings: Record<PlayerBuildingType, number>;
     productionTimers: Record<PlayerBuildingType, number>;
     holdLevel: number;
+    buildingUpgradeLevels: Record<PlayerBuildingType, number>;
+    unitUpgradeLevels: Record<string, number>;
+    healCount: number;
+    buildingBuyCount: number;
+    unitSummonCount: number;
 }
 
 export const PLAYER_HOLD_BASE_TIME = 0.5;
@@ -94,6 +100,17 @@ export function createPlayer(): IPlayer {
             acc[type] = 0;
             return acc;
         }, {} as Record<PlayerBuildingType, number>),
-        holdLevel: 0
+        holdLevel: 0,
+        buildingUpgradeLevels: PLAYER_BUILDING_TYPES.reduce((acc, type) => {
+            acc[type] = 0;
+            return acc;
+        }, {} as Record<PlayerBuildingType, number>),
+        unitUpgradeLevels: Object.keys(UNIT_TYPE_CHARACTERISTICS).reduce((acc, type) => {
+            acc[type] = 0;
+            return acc;
+        }, {} as Record<string, number>),
+        healCount: 0,
+        buildingBuyCount: 0,
+        unitSummonCount: 0
     };
 }

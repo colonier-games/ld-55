@@ -2,7 +2,7 @@ import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { createHolyKnightUnit } from "../entity/IHolyKnightUnit";
 import { IHoundUnit, createHoundUnit } from "../entity/IHoundUnit";
-import { IKnightUnit, createKnightUnit } from "../entity/IKnight";
+import { IKnightUnit, createKnightUnit } from "../entity/IKnightUnit";
 import { createPeasantUnit } from "../entity/IPeasantUnit";
 import { IPlayer } from "../entity/IPlayer";
 import { UNIT_OWNER_AI, UNIT_OWNER_PLAYER } from "../entity/IUnit";

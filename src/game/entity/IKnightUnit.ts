@@ -38,7 +38,7 @@ export function createKnightUnit(
         maxHp,
         ap: UNIT_KNIGHT_BASE_AP + UNIT_KNIGHT_AP_PER_LEVEL * props.level,
         sp: UNIT_KNIGHT_BASE_SP + UNIT_KNIGHT_SP_PER_LEVEL * props.level,
-        dp: props.level,
+        dp: UNIT_KNIGHT_BASE_DP + UNIT_KNIGHT_DP_PER_LEVEL * props.level,
         velocity: { x: 0, y: 0 },
         baseSpeed: UNIT_KNIGHT_BASE_SPEED,
         baseAcceleration: UNIT_KNIGHT_BASE_ACCELERATION,
@@ -50,4 +50,16 @@ export function createKnightUnit(
         attackAnimationStartTime: UNIT_KNIGHT_ATTACK_ANIMATION_START,
         attackRange: UNIT_KNIGHT_ATTACK_RANGE,
     };
+}
+
+export function upgradeKnightUnit(
+    unit: IKnightUnit,
+    level: number
+): void {
+    const maxHp = UNIT_KNIGHT_BASE_HP + UNIT_KNIGHT_HP_PER_LEVEL * level;
+    unit.maxHp = maxHp;
+    unit.ap = UNIT_KNIGHT_BASE_AP + UNIT_KNIGHT_AP_PER_LEVEL * level;
+    unit.sp = UNIT_KNIGHT_BASE_SP + UNIT_KNIGHT_SP_PER_LEVEL * level;
+    unit.dp = UNIT_KNIGHT_BASE_DP + UNIT_KNIGHT_DP_PER_LEVEL * level;
+    unit.attackCooldown = UNIT_KNIGHT_ATTACK_COOLDOWN + UNIT_KNIGHT_ATTACK_COOLDOWN_PER_LEVEL * level;
 }

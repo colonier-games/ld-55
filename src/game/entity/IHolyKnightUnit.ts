@@ -38,7 +38,7 @@ export function createHolyKnightUnit(
         maxHp,
         ap: UNIT_HOLY_KNIGHT_BASE_AP + UNIT_HOLY_KNIGHT_AP_PER_LEVEL * props.level,
         sp: UNIT_HOLY_KNIGHT_BASE_SP + UNIT_HOLY_KNIGHT_SP_PER_LEVEL * props.level,
-        dp: props.level,
+        dp: UNIT_HOLY_KNIGHT_BASE_DP + UNIT_HOLY_KNIGHT_DP_PER_LEVEL * props.level,
         velocity: { x: 0, y: 0 },
         baseSpeed: UNIT_HOLY_KNIGHT_BASE_SPEED,
         baseAcceleration: UNIT_HOLY_KNIGHT_BASE_ACCELERATION,
@@ -50,4 +50,17 @@ export function createHolyKnightUnit(
         attackAnimationStartTime: UNIT_HOLY_KNIGHT_ATTACK_ANIMATION_START,
         attackRange: UNIT_HOLY_KNIGHT_ATTACK_RANGE,
     };
+}
+
+export function upgradeHolyKnightUnit(
+    unit: IHolyKnightUnit,
+    level: number
+): void {
+    const maxHp = UNIT_HOLY_KNIGHT_BASE_HP + UNIT_HOLY_KNIGHT_HP_PER_LEVEL * level;
+    unit.maxHp = maxHp;
+    unit.hp = maxHp;
+    unit.ap = UNIT_HOLY_KNIGHT_BASE_AP + UNIT_HOLY_KNIGHT_AP_PER_LEVEL * level;
+    unit.sp = UNIT_HOLY_KNIGHT_BASE_SP + UNIT_HOLY_KNIGHT_SP_PER_LEVEL * level;
+    unit.dp = UNIT_HOLY_KNIGHT_BASE_DP + UNIT_HOLY_KNIGHT_DP_PER_LEVEL * level;
+    unit.attackCooldown = UNIT_HOLY_KNIGHT_ATTACK_COOLDOWN + UNIT_HOLY_KNIGHT_ATTACK_COOLDOWN_PER_LEVEL * level;
 }

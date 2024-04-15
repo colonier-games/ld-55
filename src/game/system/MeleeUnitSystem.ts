@@ -137,7 +137,7 @@ export class MeleeUnitSystem implements IGameSystem {
             unit.attackTimer += dt;
             if (unit.attackTimer >= unit.attackCooldown) {
                 unit.attackTimer = 0;
-                const damage = Math.max(0, unit.ap - unit.target.dp);
+                const damage = Math.max(1, unit.ap - unit.target.dp);
                 unit.target.hp -= damage;
                 gameLogic.trigger(
                     'unit.attacked',

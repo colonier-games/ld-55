@@ -14,6 +14,7 @@ export function GameUIBuildingMenu(
     const [playerBuildingInfos, setPlayerBuildingInfos] = useState<PlayerBuildingInfo[]>([]);
     const [playerUnits, setPlayerUnits] = useState<Record<UnitType, number>>({});
     const [playerHoldTime, setPlayerHoldTime] = useState<number>(PLAYER_HOLD_BASE_TIME);
+    const [playerHealCost, setPlayerHealCost] = useState<number>(0);
 
     useEffect(
         () => {
@@ -27,6 +28,12 @@ export function GameUIBuildingMenu(
                 'player.units.changed',
                 (units: Record<UnitType, number>) => {
                     setPlayerUnits(units);
+                }
+            );
+            props.gameLogic.addEventListener(
+                'player.heal.cost',
+                (cost: number) => {
+                    setPlayerHealCost(cost);
                 }
             );
         },
@@ -45,6 +52,13 @@ export function GameUIBuildingMenu(
         props.gameLogic.trigger(
             'player.summon',
             { unitType }
+        );
+    };
+
+    const onPlayerHeal = () => {
+        props.gameLogic.trigger(
+            'player.heal',
+            {}
         );
     };
 
@@ -89,9 +103,24 @@ export function GameUIBuildingMenu(
         }
     );
 
+    const healButton = (<div>
+        <GameUICard imageUrl="assets/icons/praying-hands.png"
+            title="Heal"
+            description={
+                <div>
+                    <p>C: <span className="white">{playerHealCost}</span></p>
+                    <p>Heal all units</p>
+                </div>
+            }
+            action="Heal"
+            onAction={onPlayerHeal}
+        />
+    </div>)
+
     return <div className={"game-ui-building-menu"}>
         <GameUIShrineButton gameLogic={props.gameLogic} holdDuration={playerHoldTime} />
         {buildingButtons}
         {summoningButtons}
+        {playerHealCost > 0 && healButton}
     </div>
 }
