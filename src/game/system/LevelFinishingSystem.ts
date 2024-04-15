@@ -31,7 +31,16 @@ export class LevelFinishingSystem implements IGameSystem {
                 const waveEntity = gameLogic.getEntities('wave')[0] as IWave;
                 if (waveNumber >= waveEntity.totalWaves) {
                     gameLogic.trigger('level.won', {});
+                    this.resetLevel(gameLogic);
                 }
+            }
+        );
+
+        gameLogic.addEventListener(
+            'wave.lost',
+            (waveNumber: number) => {
+                gameLogic.trigger('level.lost', {});
+                this.resetLevel(gameLogic);
             }
         );
     }
