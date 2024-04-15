@@ -25,6 +25,7 @@ import { PlayerHealingSystem } from "./system/PlayerHealingSystem";
 import { UnitRenderingSystem } from "./system/UnitRenderingSystem";
 import { AOEUnitSystem } from "./system/AOEUnitSystem";
 import { AOESplashSystem } from "./system/AOESplashSystem";
+import { UnitKillRewardSystem } from "./system/UnitKillRewardSystem";
 
 export const GAME_SYSTEM_CTORS = [
     PlayerInitSystem,
@@ -54,6 +55,7 @@ export const GAME_SYSTEM_CTORS = [
     PlayerUnitUpgradeSystem,
     PlayerUnitUpgradeNotificationSystem,
     PlayerHealingSystem,
+    UnitKillRewardSystem
 ];
 
 export const GAME_GRAPHICS = {

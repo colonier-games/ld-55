@@ -1,6 +1,7 @@
 import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
-import { IUnit, UNIT_ENTITY_TYPES } from "../entity/IUnit";
+import { IPlayer } from "../entity/IPlayer";
+import { IUnit, UNIT_ENTITY_TYPES, UNIT_TYPE_CHARACTERISTICS } from "../entity/IUnit";
 import { IWave } from "../entity/IWave";
 import { ALL_GAME_LEVELS } from "../level/game-levels";
 import { IGameSystem } from "./IGameSystem";
@@ -13,6 +14,7 @@ export class LevelFinishingSystem implements IGameSystem {
         gameLogic.getEntities(UNIT_ENTITY_TYPES).forEach(
             (unit: IUnit) => {
                 // unit.dead = true;
+                unit.hp = unit.maxHp;
             }
         );
         gameLogic.getEntities('wave').forEach(
@@ -28,6 +30,22 @@ export class LevelFinishingSystem implements IGameSystem {
                 );
             }
         );
+        gameLogic.getEntities('player').forEach(
+            (player: IPlayer) => {
+                player.money *= 2;
+                Object.keys(player.summonCountsPerUnitType).forEach(
+                    unitType => {
+                        player.summonCountsPerUnitType[unitType] = 0;
+                    }
+                );
+                Object.keys(player.unitTypeCosts).forEach(
+                    unitType => {
+                        player.unitTypeCosts[unitType] = UNIT_TYPE_CHARACTERISTICS[unitType].cost;
+                    }
+                );
+                player.healCount = 0;
+            }
+        )
     }
 
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
