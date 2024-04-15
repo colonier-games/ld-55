@@ -22,7 +22,7 @@ export class UnitTestingSystem implements IGameSystem {
         }
 
         const playerEntity = gameLogic.getEntities('player')[0] as IPlayer;
-        playerEntity.money += 1000;
+        playerEntity.money += 100;
 
     }
 

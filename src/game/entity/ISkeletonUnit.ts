@@ -2,8 +2,8 @@ import { newEntityId } from "./IEntity";
 import { IMeleeUnit } from "./IMeleeUnit";
 import { IUnit, UnitOwner } from "./IUnit";
 
-export const UNIT_SKELETON_BASE_HP = 5;
-export const UNIT_SKELETON_BASE_AP = 1;
+export const UNIT_SKELETON_BASE_HP = 10;
+export const UNIT_SKELETON_BASE_AP = 2;
 export const UNIT_SKELETON_BASE_SP = 1;
 export const UNIT_SKELETON_BASE_DP = 0;
 export const UNIT_SKELETON_HP_PER_LEVEL = 2;

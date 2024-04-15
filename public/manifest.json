@@ -1,4 +1,16 @@
 {
+    "name": "Riot in Hell",
+    "short_name": "Riot in Hell",
+    "start_url": "/",
     "orientation": "landscape",
-    "display": "standalone"
+    "display": "fullscreen",
+    "background_color": "#000000",
+    "description": "Ludum Dare 55 game",
+    "icons": [
+        {
+            "src": "assets/favicon-128x.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        }
+    ]
 }
