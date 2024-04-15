@@ -14,6 +14,16 @@ Welcome to _Colonier Games's_ submission for the _55th Ludum Dare_! [Ludum Dare]
 
 ![](./public/screenshots/screenshot-3.png)
 
+## Mobile Screenshots
+
+![](./public/screenshots/screenshot-4.jpg)
+
+![](./public/screenshots/screenshot-5.jpg)
+
+_Please install the PWA to your home screen, and launch it from there for full-screen game experience! The screenshot below shows you how to do it._
+
+![](./public/screenshots/screenshot-6.jpg)
+
 ## Building
 
 To build the game, do the following:
