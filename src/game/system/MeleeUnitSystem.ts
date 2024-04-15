@@ -13,7 +13,9 @@ const MELEE_UNIT_SIZE = 40;
 export const MELEE_UNIT_TYPES: Array<UnitType> = [
     "units.hound",
     "units.peasant",
-    "units.skeleton"
+    "units.skeleton",
+    "units.holy-knight",
+    "units.knight"
 ]
 
 /** Responsible for the targeting, movement and attacking of meleeUnit-type meelee units. */
