@@ -26,8 +26,8 @@ export function GameUI(
 
     return <div className="game-ui">
         <GameUITopBar gameLogic={props.gameLogic} onBuildingMenu={onToggleBuildingMenu} onSummonMenu={onToggleSummonMenu} />
+        <GameUIShrineButton gameLogic={props.gameLogic} />
         <GameUIBuildingMenu gameLogic={props.gameLogic} opened={buildingMenuOpened} />
         <GameUISummoningMenu gameLogic={props.gameLogic} opened={summonMenuOpened} />
-        <GameUIShrineButton gameLogic={props.gameLogic} />
     </div>
 }

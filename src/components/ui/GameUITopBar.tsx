@@ -92,12 +92,7 @@ export function GameUITopBar(
             }</b>
         </div>
         <div className="game-ui-top-bar-buttons">
-            <button className="game-ui-button" onClick={props.onBuildingMenu}>
-                Build ...
-            </button>
-            <button className="game-ui-button" onClick={props.onSummonMenu}>
-                Summon ...
-            </button>
+            <></>
         </div>
     </div>
 }
