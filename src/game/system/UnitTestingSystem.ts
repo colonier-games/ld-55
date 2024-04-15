@@ -19,17 +19,6 @@ export class UnitTestingSystem implements IGameSystem {
             }));
         }
 
-        for (let i = 0; i < 10; i++) {
-            gameLogic.spawnEntity<IHoundUnit>('units.hound', createHoundUnit({
-                position: {
-                    x: 1000 * Math.random(),
-                    y: 1000 * Math.random()
-                },
-                owner: UNIT_OWNER_AI,
-                level: 0
-            }));
-        }
-
     }
 
     tick(dt: number, gameLogic: IGameLogic): void {

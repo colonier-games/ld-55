@@ -1,5 +1,6 @@
 import { HoundUnitSystem } from "./system/HoundUnitSystem";
 import { LevelBackgroundSystem } from "./system/LevelBackgroundSystem";
+import { LevelFinishingSystem } from "./system/LevelFinishingSystem";
 import { PlayerBuildingBuySystem } from "./system/PlayerBuildingBuySystem";
 import { PlayerBuildingsNotificationSystem } from "./system/PlayerBuildingsNotificationSystem";
 import { PlayerBuildingsSystem } from "./system/PlayerBuildingsSystem";
@@ -11,9 +12,15 @@ import { UnitHealthBarSystem } from "./system/UnitHealthBarSystem";
 import { UnitKillingSystem } from "./system/UnitKillingSystem";
 import { UnitMovementSystem } from "./system/UnitMovementSystem";
 import { UnitTestingSystem } from "./system/UnitTestingSystem";
+import { WaveActivationSystem } from "./system/WaveActivationSystem";
+import { WaveFinishingSystem } from "./system/WaveFinishingSystem";
+import { WaveInitSystem } from "./system/WaveInitSystem";
+import { WaveSpawningSystem } from "./system/WaveSpawningSystem";
+import { WaveTimerSystem } from "./system/WaveTimerSystem";
 
 export const GAME_SYSTEM_CTORS = [
     PlayerInitSystem,
+    WaveInitSystem,
     LevelBackgroundSystem,
     HoundUnitSystem,
     UnitMovementSystem,
@@ -25,7 +32,12 @@ export const GAME_SYSTEM_CTORS = [
     PlayerMoneyNotificationSystem,
     PlayerBuildingBuySystem,
     PlayerBuildingsNotificationSystem,
-    UnitHealthBarSystem
+    UnitHealthBarSystem,
+    WaveTimerSystem,
+    WaveActivationSystem,
+    WaveSpawningSystem,
+    WaveFinishingSystem,
+    LevelFinishingSystem
 ];
 
 export const GAME_GRAPHICS = {
