@@ -14,27 +14,14 @@ export function GameUI(
         gameAssets: IGameAssets
     }
 ) {
-    const [buildingMenuOpened, setBuildingMenuOpened] = useState(false);
-    const [summonMenuOpened, setSummonMenuOpened] = useState(false);
-
-    const onToggleBuildingMenu = () => {
-        setBuildingMenuOpened(!buildingMenuOpened);
-    };
-
-    const onToggleSummonMenu = () => {
-        setSummonMenuOpened(!summonMenuOpened);
-    };
-
     return <div className="game-ui">
         <div className="game-ui-layer one">
             <GameUIBackground />
         </div>
         <div className="game-ui-layer two">
             <div className="game-ui-container">
-                <GameUITopBar gameLogic={props.gameLogic} onBuildingMenu={onToggleBuildingMenu} onSummonMenu={onToggleSummonMenu} />
-                <GameUIShrineButton gameLogic={props.gameLogic} />
-                <GameUIBuildingMenu gameLogic={props.gameLogic} opened={buildingMenuOpened} />
-                <GameUISummoningMenu gameLogic={props.gameLogic} opened={summonMenuOpened} />
+                <GameUITopBar gameLogic={props.gameLogic} />
+                <GameUIBuildingMenu gameLogic={props.gameLogic} />
             </div>
         </div>
     </div>

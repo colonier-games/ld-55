@@ -14,37 +14,51 @@ export interface BuildingTypeCharacteristics {
     reward: number;
     productionTime: number;
     cost: number;
+    imageUrl: string;
+    displayName: string;
 }
 export const PLAYER_BUILDING_TYPE_CHARACTERISTICS: Record<PlayerBuildingType, BuildingTypeCharacteristics> = {
     "building.servants": {
         cost: 10,
         reward: 1,
-        productionTime: 1
+        productionTime: 1,
+        imageUrl: 'assets/buildings/servants.png',
+        displayName: 'Servants'
     },
     "building.sacrificial-altar": {
         cost: 100,
         reward: 10,
-        productionTime: 5
+        productionTime: 5,
+        imageUrl: 'assets/buildings/sacrificial-altar.png',
+        displayName: 'Sacrificial Altar'
     },
     "building.small-temple": {
         cost: 1000,
         reward: 100,
-        productionTime: 10
+        productionTime: 10,
+        imageUrl: 'assets/buildings/small-temple.png',
+        displayName: 'Small Temple'
     },
     "building.medium-temple": {
         cost: 10000,
         reward: 1000,
-        productionTime: 20
+        productionTime: 20,
+        imageUrl: 'assets/buildings/medium-temple.png',
+        displayName: 'Medium Temple'
     },
     "building.church": {
         cost: 100000,
         reward: 10000,
-        productionTime: 30
+        productionTime: 30,
+        imageUrl: 'assets/buildings/church.png',
+        displayName: 'Church'
     },
     "building.cathedral-of-hell": {
         cost: 1000000,
         reward: 100000,
-        productionTime: 40
+        productionTime: 40,
+        imageUrl: 'assets/buildings/cathedral-of-hell.png',
+        displayName: 'Cathedral of Hell'
     }
 };
 

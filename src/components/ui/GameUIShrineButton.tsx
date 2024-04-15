@@ -1,4 +1,5 @@
 import { IGameLogic } from "../../game/IGameLogic";
+import { GameUICard } from "./GameUICard";
 
 export function GameUIShrineButton(
     props: {
@@ -13,6 +14,14 @@ export function GameUIShrineButton(
         console.log('[GameUIShrineButton]', 'onEarnFromShrine');
     }
 
-    return <div className="game-ui-shrine-button" onClick={onEarnFromShrine}>
-    </div>;
+    return <GameUICard imageUrl="assets/buildings/shrine.png"
+        title="Shrine"
+        description={
+            <div>
+                <p>Click to earn money</p>
+            </div>
+        }
+        action="Pray"
+        onAction={onEarnFromShrine}
+    />
 }

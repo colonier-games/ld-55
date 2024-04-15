@@ -4,12 +4,11 @@ import {
 } from "react";
 import { IGameLogic } from "../../game/IGameLogic";
 import { WAVE_COOLDOWN } from "../../game/entity/IWave";
+import { GameUIShrineButton } from "./GameUIShrineButton";
 
 export function GameUITopBar(
     props: {
         gameLogic: IGameLogic
-        onBuildingMenu: () => void
-        onSummonMenu: () => void
     }
 ) {
     const [playerMoney, setPlayerMoney] = useState(0);
@@ -76,10 +75,8 @@ export function GameUITopBar(
 
     return <div className="game-ui-top-bar">
         <div className="game-ui-player-money">
-            <i>Money: </i>{playerMoney}
-        </div>
-        <div className="game-ui-wave-status">
-            <>{
+            <p>Money: {playerMoney}</p>
+            <p>{
                 waveActive ?
                     (<>Wave {waveNumber} | Active</>)
                     :
@@ -89,10 +86,7 @@ export function GameUITopBar(
                             :
                             (<>Wave {waveNumber} | Starting in {Math.ceil(waveCooldown - waveTimer)}s</>)
                     )
-            }</>
-        </div>
-        <div className="game-ui-top-bar-buttons">
-            <></>
+            }</p>
         </div>
     </div>
 }

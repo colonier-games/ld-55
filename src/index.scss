@@ -68,15 +68,23 @@ body {
             background-size: contain;
             background-repeat: no-repeat;
             width: 100%;
-            height: 200px;
+            height: 220px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
             padding: 20px;
             color: #f00;
             font-size: 1.25rem;
             text-shadow: 2px 2px 4px #000;
+
+            div {
+                margin: 0 8px;
+            }
+
+            p {
+                margin: 0;
+            }
         }
 
         .game-ui-bottom-bar {
@@ -97,16 +105,15 @@ body {
         .game-ui-building-menu,
         .game-ui-summoning-menu {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
-            background: #333;
-            box-shadow: 1px 1px 10px 0px #666;
             z-index: 10;
             top: 64px;
-            transition: all 0.3s ease-in-out;
             border-radius: 8px;
             margin-bottom: 8px;
+            width: 100%;
+            flex-wrap: wrap;
         }
 
         .game-ui-shrine-button {
@@ -158,18 +165,23 @@ body {
                 0% {
                     background-position: 0 0;
                 }
+
                 20% {
                     background-position: 5% 5%;
                 }
+
                 40% {
                     background-position: 15% 3%;
                 }
+
                 60% {
                     background-position: 20% 12%;
                 }
+
                 80% {
                     background-position: 8% 3%
                 }
+
                 100% {
                     background-position: 0 0;
                 }
@@ -177,5 +189,110 @@ body {
 
             animation: background-scroll 60s ease-in-out infinite;
         }
+
+
+        .game-ui-card {
+            width: 240px;
+            height: 360px;
+
+            background-image: url(assets/ui/card.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+
+            position: relative;
+
+            .game-ui-card-image-box,
+            .game-ui-card-content {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .game-ui-card-image-box {
+                margin-top: 30px;
+                width: 200px;
+                height: 150px;
+                margin-left: 20px;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 8px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .game-ui-card-content {
+                margin-top: 180px;
+                margin-left: 20px;
+                color: red;
+                padding: 10px;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 8px;
+                width: 200px;
+                height: 150px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-between;
+
+                .game-ui-card-title {
+                    font-size: 0.85rem;
+                }
+
+                .game-ui-card-description {
+                    font-size: 0.7rem;
+
+                    p {
+                        margin: 0;
+                    }
+
+                    div {
+                        margin-top: 8px;
+                        margin-bottom: 8px;
+                    }
+                }
+
+                .game-ui-card-action {
+                    border-radius: 8px;
+                    position: relative;
+                    width: 100%;
+                    height: 32px;
+
+                    .game-ui-card-action-background {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(255, 0, 0, 0.5);
+                        border-radius: 8px;
+                    }
+
+                    .game-ui-card-action-text {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                    }
+                }
+            }
+
+            img {
+                height: 100%;
+                text-align: center;
+            }
+
+            margin: 6px;
+        }
     }
+}
+
+.white {
+    color: #fff;
 }

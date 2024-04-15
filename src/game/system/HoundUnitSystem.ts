@@ -2,8 +2,9 @@ import { IGameAssets } from "../IGameAssets";
 import { IGameLogic } from "../IGameLogic";
 import { IHoundUnit, UNIT_HOUND_ATTACK_ANIMATION_START, UNIT_HOUND_ATTACK_RANGE } from "../entity/IHoundUnit";
 import { IUnit, UNIT_ENTITY_TYPES, UNIT_OWNER_AI } from "../entity/IUnit";
+import { IWave } from "../entity/IWave";
 import { expImpulse } from "../utils/game-animation";
-import { worldToCanvas } from "../utils/game-coordinates";
+import { WORLD_SIZE, WORLD_UNIT_BOX_SIZE, worldToCanvas } from "../utils/game-coordinates";
 import { lerpIn } from "../utils/lerp";
 import { IGameSystem } from "./IGameSystem";
 
@@ -63,31 +64,29 @@ export class HoundUnitSystem implements IGameSystem {
             targetAcceleration.y * targetAcceleration.y
         );
 
-        // Normalize
-        if (targetAccelerationLength > 0) {
-            targetAcceleration.x /= targetAccelerationLength;
-            targetAcceleration.y /= targetAccelerationLength;
-        }
+        if (targetAccelerationLength < unit.arriveRange) {
+            lerpIn(
+                unit.velocity,
+                unit.velocity,
+                { x: 0, y: 0 },
+                unit.arriveFactor
+            );
+        } else {
 
-        // Add a very little bit of random to acceleration
-        targetAcceleration.x += 0.25 * (Math.random() - 0.5);
-        targetAcceleration.y += 0.25 * (Math.random() - 0.5);
+            // Normalize
+            if (targetAccelerationLength > 0) {
+                targetAcceleration.x /= targetAccelerationLength;
+                targetAcceleration.y /= targetAccelerationLength;
+            }
 
-        // Accelerate
-        unit.velocity.x += targetAcceleration.x * unit.baseAcceleration * unit.sp * dt;
-        unit.velocity.y += targetAcceleration.y * unit.baseAcceleration * unit.sp * dt;
+            // Add a very little bit of random to acceleration
+            targetAcceleration.x += 0.25 * (Math.random() - 0.5);
+            targetAcceleration.y += 0.25 * (Math.random() - 0.5);
 
-        // Clamp velocity
-        const velocityLength = Math.sqrt(
-            unit.velocity.x * unit.velocity.x +
-            unit.velocity.y * unit.velocity.y
-        );
-        if (velocityLength > unit.baseSpeed * unit.sp) {
-            unit.velocity.x /= velocityLength;
-            unit.velocity.y /= velocityLength;
+            // Accelerate
+            unit.velocity.x += targetAcceleration.x * unit.baseAcceleration * unit.sp * dt;
+            unit.velocity.y += targetAcceleration.y * unit.baseAcceleration * unit.sp * dt;
 
-            unit.velocity.x *= unit.baseSpeed * unit.sp;
-            unit.velocity.y *= unit.baseSpeed * unit.sp;
         }
 
         if (unit.attackTimer - UNIT_HOUND_ATTACK_ANIMATION_START > 0) {
@@ -146,7 +145,8 @@ export class HoundUnitSystem implements IGameSystem {
 
     private moveHoundWithWandering(
         unit: IHoundUnit,
-        dt: number
+        dt: number,
+        wave: IWave
     ): void {
 
         unit.kinematic = false;
@@ -164,6 +164,31 @@ export class HoundUnitSystem implements IGameSystem {
 
         unit.velocity.x += randomAcceleration.x * unit.baseAcceleration * 0.25 * unit.sp * dt;
         unit.velocity.y += randomAcceleration.y * unit.baseAcceleration * 0.25 * unit.sp * dt;
+
+        if (!wave.active) {
+            const centerDiff = {
+                x: unit.position.x - WORLD_SIZE / 2,
+                y: unit.position.y - WORLD_SIZE / 2
+            };
+            const centerDiffLength = Math.sqrt(
+                centerDiff.x * centerDiff.x +
+                centerDiff.y * centerDiff.y
+            );
+            if (centerDiffLength > WORLD_UNIT_BOX_SIZE) {
+                const unitToCenter = {
+                    x: centerDiff.x * -1,
+                    y: centerDiff.y * -1
+                };
+                const unitToCenterLength = Math.sqrt(
+                    unitToCenter.x * unitToCenter.x +
+                    unitToCenter.y * unitToCenter.y
+                );
+                unitToCenter.x /= unitToCenterLength;
+                unitToCenter.y /= unitToCenterLength;
+                unit.velocity.x += unitToCenter.x * unit.baseAcceleration * unit.sp * dt;
+                unit.velocity.y += unitToCenter.y * unit.baseAcceleration * unit.sp * dt;
+            }
+        }
 
     }
 
@@ -184,6 +209,7 @@ export class HoundUnitSystem implements IGameSystem {
     tick(dt: number, gameLogic: IGameLogic): void {
 
         const houndUnits = gameLogic.getEntities<IHoundUnit>('units.hound');
+        const wave = gameLogic.getEntities<IWave>('wave')[0];
         const allUnits = gameLogic.getEntities<IUnit>(UNIT_ENTITY_TYPES);
 
         houndUnits.forEach(unit => {
@@ -204,7 +230,7 @@ export class HoundUnitSystem implements IGameSystem {
                 this.moveHoundTowardsTarget(unit, dt);
                 this.attackHoundTarget(unit, dt, gameLogic);
             } else {
-                this.moveHoundWithWandering(unit, dt);
+                this.moveHoundWithWandering(unit, dt, wave);
             }
 
             this.clampHoundVelocity(unit);

@@ -1,4 +1,5 @@
 export const WORLD_SIZE = 1000.0;
+export const WORLD_UNIT_BOX_SIZE = 125.0;
 
 export function worldToCanvas(
     worldPosition: { x: number, y: number },
