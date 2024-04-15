@@ -334,6 +334,18 @@ body {
             justify-content: center;
         }
     }
+
+    .game-loading {
+        background: black;
+        color: #f00;
+        font-size: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        @include full-size;
+    }
 }
 
 .white {

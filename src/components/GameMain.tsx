@@ -26,7 +26,12 @@ export function GameMain() {
                 gameAssetsRef.current.addLoadingProgressListener(
                     ({ remaining }) => {
                         if (remaining === 0) {
-                            setLoading(false);
+                            setTimeout(
+                                () => {
+                                    setLoading(false);
+                                },
+                                1000
+                            );
                         }
                     }
                 );
