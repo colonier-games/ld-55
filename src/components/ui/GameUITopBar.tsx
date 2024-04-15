@@ -75,7 +75,7 @@ export function GameUITopBar(
 
     return <div className="game-ui-top-bar">
         <div className="game-ui-player-money">
-            <p>Money: {playerMoney}</p>
+            <p>Faith: {playerMoney}</p>
             <p>{
                 waveActive ?
                     (<>Wave {waveNumber} | Active</>)
