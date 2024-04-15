@@ -8,7 +8,7 @@ import { IGameSystem } from "./IGameSystem";
 export class UnitTestingSystem implements IGameSystem {
     init(gameLogic: IGameLogic, gameAssets: IGameAssets): void {
 
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 200; i++) {
             gameLogic.spawnEntity<IHoundUnit>('units.hound', createHoundUnit({
                 position: {
                     x: 1000 * Math.random(),

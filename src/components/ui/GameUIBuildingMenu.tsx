@@ -48,13 +48,11 @@ export function GameUIBuildingMenu(
             return <div>
                 <GameUICard title={buildingInfo.buildingType.characteristics.displayName}
                     imageUrl={buildingInfo.buildingType.characteristics.imageUrl}
-                    action="Buy"
+                    action="Build"
                     description={
                         <div>
-                            <p>Cost: <span className="white">{buildingInfo.buildingType.characteristics.cost}</span></p>
+                            <p>C: <span className="white">{buildingInfo.buildingType.characteristics.cost}</span> | R: <span className="white">{buildingInfo.buildingType.characteristics.reward}</span> | T: <span className="white">{buildingInfo.buildingType.characteristics.productionTime}</span></p>
                             <p>You have: <span className="white">{buildingInfo.buildingCount}</span></p>
-                            <p>Reward: <span className="white">{buildingInfo.buildingType.characteristics.reward}</span></p>
-                            <p>Production Time: <span className="white">{buildingInfo.buildingType.characteristics.productionTime}</span></p>
                         </div>
                     }
                     onAction={() => onBuyBuildingOfType(buildingInfo.buildingType.name)}
@@ -69,9 +67,7 @@ export function GameUIBuildingMenu(
             action="Summon"
             description={
                 <div>
-                    <p>Cost: <span className="white">{UNIT_TYPE_CHARACTERISTICS['units.hound'].cost}</span></p>
-                    <p>Damage: <span className="white">{UNIT_HOUND_BASE_DP}</span></p>
-                    <p>Health: <span className="white">{UNIT_HOUND_BASE_HP}</span></p>
+                    <p>C: <span className="white">{UNIT_TYPE_CHARACTERISTICS['units.hound'].cost}</span> | AP: <span className="white">{UNIT_HOUND_BASE_DP}</span> | HP: <span className="white">{UNIT_HOUND_BASE_HP}</span></p>
                 </div>
             }
             title="Peasant"

@@ -9,11 +9,13 @@ import { GameCanvas } from './GameCanvas';
 import { GameUI } from './GameUI';
 import { IGameAssets } from '../game/IGameAssets';
 import { GameAssetsImpl } from '../game/GameAssetsImpl';
+import { GameOver } from './GameOver';
 
 export function GameMain() {
     const [initializing, setInitializing] = useState(true);
     const [loading, setLoading] = useState(true);
     const [loadingError, setLoadingError] = useState<string | null>(null);
+    const [gameState, setGameState] = useState<string>('playing');
     const gameAssetsRef = useRef<IGameAssets | null>(null);
     const gameLogicRef = useRef<IGameLogic | null>(null);
 
@@ -40,6 +42,13 @@ export function GameMain() {
                 );
                 gameAssetsRef.current.populateLoadingQueue();
                 setInitializing(false);
+
+                gameLogicRef.current.addEventListener(
+                    "level.lost",
+                    () => {
+                        setGameState('game-over');
+                    }
+                );
             }
         },
         []
@@ -59,8 +68,17 @@ export function GameMain() {
         </div>;
     } else {
         return <div className="game-main">
-            <GameUI gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
-            <GameCanvas gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
+            {
+                gameState === 'playing' && (<>
+                    <GameUI gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
+                    <GameCanvas gameLogic={gameLogicRef.current} gameAssets={gameAssetsRef.current} />
+                </>)
+            }
+            {
+                gameState === 'game-over' && (<>
+                    <GameOver />
+                </>)
+            }
         </div>;
     }
 }
